@@ -340,8 +340,6 @@ function main(NP,itermax,F,CR)
 
     val = zeros(NP,1); // tableau avec le coût de chacun des individus
 
-    // ------------- Évaluation des membres -------------
-
     for j=1:NP
         if pop(1,j)==1 & pop(2,j)==1 then
             val(j)=fct11(pop);
@@ -560,16 +558,16 @@ function main(NP,itermax,F,CR)
 endfunction
 
 
-//function save(NP,itermax,F,CR,compt,val,pop,popInit,bestIndex,bestMember,E)
-//    mkdir('/home/naudinl/Documents/DonneesDE/' + string(NP) + "_" + string(itermax) + "_" + string(F) + "_" + string(CR));
-//    write('/home/naudinl/Documents/DonneesDE/' + string(NP) + "_" + string(itermax) + "_" + string(F) + "_" + string(CR) + '/popInit.txt',popInit);
-//    write('/home/naudinl/Documents/DonneesDE/' + string(NP) + "_" + string(itermax) + "_" + string(F) + "_" + string(CR) + '/popFinal.txt',pop);
-//    write('/home/naudinl/Documents/DonneesDE/' + string(NP) + "_" + string(itermax) + "_" + string(F) + "_" + string(CR) + '/cost.txt',val);
-//    write('/home/naudinl/Documents/DonneesDE/' + string(NP) + "_" + string(itermax) + "_" + string(F) + "_" + string(CR) + '/countType.txt',compt,"(I4)");
-//    write('/home/naudinl/Documents/DonneesDE/' + string(NP) + "_" + string(itermax) + "_" + string(F) + "_" + string(CR) + '/bestIndex.txt',bestIndex,"(I4)");
-//    write('/home/naudinl/Documents/DonneesDE/' + string(NP) + "_" + string(itermax) + "_" + string(F) + "_" + string(CR) + '/bestMember.txt',bestMember);
-//    write('/home/naudinl/Documents/DonneesDE/' + string(NP) + "_" + string(itermax) + "_" + string(F) + "_" + string(CR) + '/time.txt',E)
-//endfunction
+function save(NP,itermax,F,CR,compt,val,pop,popInit,bestIndex,bestMember,E)
+    mkdir('/home/naudinl/Documents/DonneesDE/' + string(NP) + "_" + string(itermax) + "_" + string(F) + "_" + string(CR));
+    write('/home/naudinl/Documents/DonneesDE/' + string(NP) + "_" + string(itermax) + "_" + string(F) + "_" + string(CR) + '/popInit.txt',popInit);
+    write('/home/naudinl/Documents/DonneesDE/' + string(NP) + "_" + string(itermax) + "_" + string(F) + "_" + string(CR) + '/popFinal.txt',pop);
+    write('/home/naudinl/Documents/DonneesDE/' + string(NP) + "_" + string(itermax) + "_" + string(F) + "_" + string(CR) + '/cost.txt',val);
+    write('/home/naudinl/Documents/DonneesDE/' + string(NP) + "_" + string(itermax) + "_" + string(F) + "_" + string(CR) + '/countType.txt',compt,"(I4)");
+    write('/home/naudinl/Documents/DonneesDE/' + string(NP) + "_" + string(itermax) + "_" + string(F) + "_" + string(CR) + '/bestIndex.txt',bestIndex,"(I4)");
+    write('/home/naudinl/Documents/DonneesDE/' + string(NP) + "_" + string(itermax) + "_" + string(F) + "_" + string(CR) + '/bestMember.txt',bestMember);
+    write('/home/naudinl/Documents/DonneesDE/' + string(NP) + "_" + string(itermax) + "_" + string(F) + "_" + string(CR) + '/time.txt',E)
+endfunction
 
 main(60,150,0.5,0.9)
 
