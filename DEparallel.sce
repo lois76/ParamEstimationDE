@@ -340,39 +340,9 @@ function main(NP,itermax,F,CR)
 
     val = zeros(NP,1); // tableau avec le coût de chacun des individus
 
-    // ---------- Evalutation du premier individu après initialisation ----------
-    j=1;
-    if pop(1,j)==1 & pop(2,j)==1 then
-        val(j)=fct11(pop);
+    // ------------- Évaluation des membres -------------
 
-    elseif pop(1,j)==1 & pop(2,j)==2 then
-        val(j)=fct12(pop);
-
-    elseif pop(1,j)==1 & pop(2,j)==3 then
-        val(j)=fct13(pop);
-
-    elseif pop(1,j)==2 & pop(2,j)==1 then
-        val(j)=fct21(pop);
-
-    elseif pop(1,j)==2 & pop(2,j)==2 then
-        val(j)=fct22(pop);
-
-    elseif pop(1,j)==2 & pop(2,j)==3 then
-        val(j)=fct23(pop);
-
-    elseif pop(1,j)==3 & pop(2,j)==1 then
-        val(j)=fct31(pop);
-
-    elseif pop(1,j)==3 & pop(2,j)==2 then
-        val(j)=fct32(pop);
-
-    elseif pop(1,j)==3 & pop(2,j)==3 then
-        val(j)=fct33(pop);
-    end//ferme le if
-
-    // ------------- Évaluation des membres restants -------------
-
-    for j=2:NP
+    for j=1:NP
         if pop(1,j)==1 & pop(2,j)==1 then
             val(j)=fct11(pop);
 
@@ -400,7 +370,7 @@ function main(NP,itermax,F,CR)
         elseif pop(1,j)==3 & pop(2,j)==3 then
             val(j)=fct33(pop);
         end//ferme le if
-    end //ferme le for j=2:NP
+    end //ferme le for j=1:NP
     
     bestIndex=1;
     for b=2:NP
