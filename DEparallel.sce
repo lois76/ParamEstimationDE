@@ -554,22 +554,22 @@ function main(NP,itermax,F,CR)
     
     iterVec=1:1:itermax
     plot(iterVec,costVec,2)
-//    save(NP,itermax,F,CR,compt,val,pop,popInit,bestIndex,bestMember,E)
+    save(NP,itermax,F,CR,compt,val,pop,popInit,bestIndex,bestMember,E)
 endfunction
 
 
 function save(NP,itermax,F,CR,compt,val,pop,popInit,bestIndex,bestMember,E)
-    mkdir('/home/naudinl/Documents/DonneesDE/' + string(NP) + "_" + string(itermax) + "_" + string(F) + "_" + string(CR));
-    write('/home/naudinl/Documents/DonneesDE/' + string(NP) + "_" + string(itermax) + "_" + string(F) + "_" + string(CR) + '/popInit.txt',popInit);
-    write('/home/naudinl/Documents/DonneesDE/' + string(NP) + "_" + string(itermax) + "_" + string(F) + "_" + string(CR) + '/popFinal.txt',pop);
-    write('/home/naudinl/Documents/DonneesDE/' + string(NP) + "_" + string(itermax) + "_" + string(F) + "_" + string(CR) + '/cost.txt',val);
-    write('/home/naudinl/Documents/DonneesDE/' + string(NP) + "_" + string(itermax) + "_" + string(F) + "_" + string(CR) + '/countType.txt',compt,"(I4)");
-    write('/home/naudinl/Documents/DonneesDE/' + string(NP) + "_" + string(itermax) + "_" + string(F) + "_" + string(CR) + '/bestIndex.txt',bestIndex,"(I4)");
-    write('/home/naudinl/Documents/DonneesDE/' + string(NP) + "_" + string(itermax) + "_" + string(F) + "_" + string(CR) + '/bestMember.txt',bestMember);
-    write('/home/naudinl/Documents/DonneesDE/' + string(NP) + "_" + string(itermax) + "_" + string(F) + "_" + string(CR) + '/time.txt',E)
+    mkdir('./DonneesDE/' + string(NP) + "_" + string(itermax) + "_" + string(F) + "_" + string(CR));
+    write('./DonneesDE/' + string(NP) + "_" + string(itermax) + "_" + string(F) + "_" + string(CR) + '/popInit.txt',popInit);
+    write('./DonneesDE/' + string(NP) + "_" + string(itermax) + "_" + string(F) + "_" + string(CR) + '/popFinal.txt',pop);
+    write('./DonneesDE/' + string(NP) + "_" + string(itermax) + "_" + string(F) + "_" + string(CR) + '/cost.txt',val);
+    write('./DonneesDE/' + string(NP) + "_" + string(itermax) + "_" + string(F) + "_" + string(CR) + '/countType.txt',compt,"(I4)");
+    write('./DonneesDE/' + string(NP) + "_" + string(itermax) + "_" + string(F) + "_" + string(CR) + '/bestIndex.txt',bestIndex,"(I4)");
+    write('./DonneesDE/' + string(NP) + "_" + string(itermax) + "_" + string(F) + "_" + string(CR) + '/bestMember.txt',bestMember);
+    write('./DonneesDE/' + string(NP) + "_" + string(itermax) + "_" + string(F) + "_" + string(CR) + '/time.txt',E)
 endfunction
 
-main(60,150,0.5,0.9)
+main(10,1,0.5,0.9)
 
 //taillesPop = [200 300]
 //iterations = [100 300]
@@ -614,14 +614,14 @@ main(60,150,0.5,0.9)
 ///////////////////////// Analyse des données /////////////////////////
 ///////////////////////////////////////////////////////////////////////
 
-//mkdir('/home/naudinl/Documents/DonneesDE/DataAnalysis');
-//write('/home/naudinl/Documents/DonneesDE/countTypeMean.txt',);
+//mkdir('./DonneesDE/DataAnalysis');
+//write('./DonneesDE/countTypeMean.txt',);
 //countTypeMean=zeros(9,1);
 //for NP = taillesPop
 //    for itermax = iterations
 //       for F = mutations
 //           for CR = CRs
-//                ctm=read('/home/naudinl/Documents/DonneesDE/' + string(NP) + "_" + string(itermax) + "_" + string(F) + "_" + string(CR) + '/countType.txt',9,1);
+//                ctm=read('./DonneesDE/' + string(NP) + "_" + string(itermax) + "_" + string(F) + "_" + string(CR) + '/countType.txt',9,1);
 //                countTypeMean=countTypeMean+ctm;
 //           end
 //        end
