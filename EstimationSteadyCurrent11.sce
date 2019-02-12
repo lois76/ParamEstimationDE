@@ -180,7 +180,7 @@ function [valBest]=SS(NP,itermax,F,CR)
     
 //    disp(val);
 //    disp(bM);
-    disp(val(bestIndex));
+//    disp(val(bestIndex));
     
     
 //    iterVec=1:1:itermax;
