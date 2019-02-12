@@ -15,7 +15,7 @@ RUN apt-get update && \
 
 RUN apt-get install -y scilab && mkdir /Result
 
-COPY ./EstimationSteadyCurrent11.sce /EstimationSteadyCurrent11.sce
+COPY ./main.sce /main.sce
 COPY ./entrypoint.sh /entrypoint.sh
 
 WORKDIR /
