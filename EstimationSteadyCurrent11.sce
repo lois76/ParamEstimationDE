@@ -1,5 +1,3 @@
-currentDate = getdate()
-rand('seed',getdate('s')+currentDate(10))
 
 //////////////////////////////////////////////////////////
 ///////////////     Simulation modèle      ///////////////
@@ -37,7 +35,7 @@ endfunction
 //// Estimation de [gCa gK gL ECa EK EL V1/2x1 V1/2x2 V1/2x3 V12x4 kx1 kx2 kx3 kx4] ////
 /////////////////////////////////////////////////////////////////////////////////////////
 
-function [valBest]=SS(NP,itermax,F,CR)
+function [valBest]=simulation(NP,itermax,F,CR)
     D=14; 
     costVec=zeros(1,itermax);
     pop=zeros(D,NP);
@@ -187,7 +185,3 @@ function [valBest]=SS(NP,itermax,F,CR)
 //    plot(iterVec,costVec,2)
 endfunction
 
-args=sciargs();
-[valBest]=SS(strtod(args(6)),strtod(args(7)),strtod(args(8)),strtod(args(9)));
-
-csvWrite(valBest,"/Result/result.csv")
