@@ -184,20 +184,7 @@ function [valBest]=SS(NP,itermax,F,CR)
 //    plot(iterVec,costVec,2)
 endfunction
 
-[valBest]=SS(args[1],A(i,2),A(i,3),A(i,4));
+args=sciargs();
+[valBest]=SS(strtod(args(6)),strtod(args(7)),strtod(args(8)),strtod(args(9)));
 
-//a=csvRead("/home/naudinl/Documents/FichierR/x.csv");
-//A=a(2:$,2:$);
-//resCout=zeros(2000,1);
-//
-//for i=1:2000
-//    [valBest]=SS(A(i,1),A(i,2),A(i,3),A(i,4));
-//    resCout(i)=valBest;
-//    disp(i);
-//end
-//
-//csvWrite(resCout2,"/home/naudinl/Documents/FichierR/yy.csv")
-//
-
-
-
+csvWrite(valBest,"/Result/result.csv")
