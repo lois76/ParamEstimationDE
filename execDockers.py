@@ -8,7 +8,7 @@ def nbContainers():
 	pipe=Popen("docker container ls | wc -l", shell=True, stdout=PIPE)
 	return int(pipe.communicate()[0])-1
 
-scilabScriptName = "EstimationSteadyCurrent11.sce"
+scilabScriptName = "EstimationSSRIM21.sce"
 nbCpus = multiprocessing.cpu_count()
 maxNbSimPerParam = 20
 simId = 0
