@@ -31,5 +31,5 @@ with open('params.csv') as csv_file:
 
 				# Loop if the current number of running containers is greater or equal than the number of available cpus
 				while nbCpus <= nbContainers():
-					time.sleep(100)
+					time.sleep(1)
 
