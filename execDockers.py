@@ -1,18 +1,35 @@
 from subprocess import Popen, PIPE
 import multiprocessing
 import time
+import csv
 
-scilabScriptName="EstimationSteadyCurrent11.sce"
-nbCpus=multiprocessing.cpu_count()
-nbContainers=0
-nbSim=0
-while nbSim<100:
+
+def nbContainers():
 	pipe=Popen("docker container ls | wc -l", shell=True, stdout=PIPE)
-	nbContainer=int(pipe.communicate()[0])-1
-	if nbContainers<nbCpus :
-		Popen("mkdir Result"+str(nbSim), shell=True)
-		command=["docker run --name scilab"+str(nbSim)+" --rm -v $(pwd)/Result"+str(nbSim)+":/Result scilab "+scilabScriptName+" 10 10 0.5 0.9"]
-		Popen(command, shell=True)
-		nbSim+=1
-	else:
-		time.sleep(100)
+	return int(pipe.communicate()[0])-1
+
+scilabScriptName = "EstimationSteadyCurrent11.sce"
+nbCpus = multiprocessing.cpu_count()
+maxNbSimPerParam = 2
+simId = 0
+with open('params.csv') as csv_file:
+	csv_reader = csv.reader(csv_file, delimiter=',')
+	line_count = 0
+	for row in csv_reader:
+		# First line contains the header
+		if line_count == 0:
+			line_count += 1
+		else:
+			nbSimPerParam = 0
+			while nbSimPerParam < maxNbSimPerParam:
+				resultPath = "Result_"+str(nbSimPerParam)+"_"+row[1]+"_"+row[2]+"_"+row[3]+"_"+row[4]
+				Popen("mkdir "+resultPath, shell = True)
+				command = ["docker run --name scilab"+str(simId)+"  -v $(pwd)/scilab-scripts:/scilab-scripts -v $(pwd)/"+resultPath+":/Result scilab "+scilabScriptName+" "+row[1]+" "+row[2]+" "+row[3]+" "+row[4]]
+				Popen(command, shell = True)
+				simId += 1
+				nbSimPerParam += 1
+
+				# Loop if the current number of running containers is greater or equal than the number of available cpus
+				while nbCpus <= nbContainers():
+					time.sleep(100)
+
