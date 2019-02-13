@@ -10,7 +10,7 @@ def nbContainers():
 
 scilabScriptName = "EstimationSteadyCurrent11.sce"
 nbCpus = multiprocessing.cpu_count()
-maxNbSimPerParam = 30
+maxNbSimPerParam = 20
 simId = 0
 with open('params.csv') as csv_file:
 	csv_reader = csv.reader(csv_file, delimiter=',')
