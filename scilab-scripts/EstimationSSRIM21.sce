@@ -19,7 +19,7 @@ endfunction
 //// Estimation de [gCa gK gL ECa EK EL V1/2x1 V1/2x2 V1/2x3 V12x4 kx1 kx2 kx3 kx4] ////
 /////////////////////////////////////////////////////////////////////////////////////////
 
-function [bM]=simulation(NP,itermax,F,CR)
+function [valBest]=simulation(NP,itermax,F,CR)
     
     D=12; 
     costVec=zeros(1,itermax);
@@ -150,4 +150,6 @@ function [bM]=simulation(NP,itermax,F,CR)
     // Sauvegarde du meilleur individu
     bM = [];
     bM = pop(:,bestIndex);
+
+    valBest=val(bestIndex);
 endfunction
