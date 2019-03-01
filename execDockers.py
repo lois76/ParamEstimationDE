@@ -1,4 +1,4 @@
-from subprocess import Popen, PIPE
+from subprocess import run, Popen, PIPE
 import multiprocessing
 import time
 import csv
@@ -8,7 +8,7 @@ def nbContainers():
 	pipe=Popen("docker container ls | wc -l", shell=True, stdout=PIPE)
 	return int(pipe.communicate()[0])-1
 
-scilabScriptName = "EstimationSSRIM21.sce"
+scilabScriptName = "VMSSAFD21.sce"
 nbCpus = multiprocessing.cpu_count()
 maxNbSimPerParam = 20
 simId = 0
