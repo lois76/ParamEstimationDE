@@ -5,7 +5,7 @@ import csv
 
 
 def nbContainers():
-	pipe=Popen("docker container ls | wc -l", shell=True, stdout=PIPE)
+	pipe=run("docker container ls | wc -l", shell=True, stdout=PIPE)
 	return int(pipe.communicate()[0])-1
 
 scilabScriptName = "VMSSAFD21.sce"
