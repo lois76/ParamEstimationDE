@@ -5,8 +5,8 @@ import csv
 
 
 def nbContainers():
-	pipe=run("docker container ls | wc -l", shell=True, stdout=PIPE)
-	return int(pipe.communicate()[0])-1
+	result=run("docker container ls | wc -l", shell=True, stdout=PIPE).stdout.decode('utf-8')
+	return int(result)-1
 
 scilabScriptName = "VMSSAFD21.sce"
 nbCpus = multiprocessing.cpu_count()
