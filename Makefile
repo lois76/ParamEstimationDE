@@ -4,7 +4,7 @@ build:
 	docker build -t scilab .
 
 clean:
-	docker stop $(docker ps -aq) || true && docker rm $(docker ps -aq) || true
+	docker stop $(shell docker ps -aq) || true && docker rm $(shell docker ps -aq) || true
 	rm -rf Results
 	rm -rf outputs
 	rm -f output_python
