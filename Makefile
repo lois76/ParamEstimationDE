@@ -16,7 +16,7 @@ start:
 	python3 execDockers.py > output_python
 
 archive:
-	tar -cvf Results-`date +'%Y%m%d'`.tar ./Results
+	tar -cf Results-`date +'%Y%m%d'`.tar ./Results
 
 extract:
-	tar -xvf *.tar
+	tar -xf *.tar
