@@ -14,7 +14,7 @@ prepare:
 	mkdir outputs
 
 start:
-	python3 execDockers.py > output_python
+	python3 execDockers.py &> output_python
 
 archive:
 	tar -cf Results-`date +'%Y%m%d'`.tar ./Results
