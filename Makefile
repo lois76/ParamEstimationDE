@@ -4,9 +4,10 @@ build:
 	docker build -t scilab .
 
 clean:
+	docker stop $(docker ps -aq) && docker rm $(docker ps -aq)
 	rm -rf Results
 	rm -rf outputs
-	rm output_python
+	rm -f output_python
 
 prepare:
 	mkdir Results
