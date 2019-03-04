@@ -160,14 +160,5 @@ function [bM, valBest]=simulation(NP,itermax,F,CR)
 //    plot(iterVec,costVec,2)
 endfunction
 
-[bM, valBest]=simulation(120,500,0.8,0.8)
-
-function y=M22(V)
-    y=bM(1)*xinf(V,bM(7),bM(9))*(V-bM(4))+bM(2)*xinf(V,bM(8),bM(10))*(V-bM(5))+bM(3)*(V-bM(6))
-endfunction
-
-for i=1:length(vecV)
-    plot(vecV(i),M22(vecV(i)),'b*')
-end
-
+[bM,valBest]=simulation(100,400,0.8,0.8)
 
