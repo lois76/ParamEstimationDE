@@ -4,3 +4,7 @@ X0             ( 3.06 3.74 2.26 63.01 -35.62 -79.99 -27.57 -53.01 -2 10.28 7.44 
 LOWER_BOUND    ( 2    2    2    60    -90    -82    -35    -57    -5  8    5    -13 )
 UPPER_BOUND    ( 4    4    4    65    -25    -78    -23    -49    10  12   10   -6)
 MAX_BB_EVAL    1000                  # the algorithm terminates when 1000 blackbox evaluations have been mad
+BB_OUTPUT_TYPE OBJ EB
+DISPLAY_DEGREE 2
+DISPLAY_ALL_EVAL yes
+DISPLAY_STATS BBE ( SOL ) OBJ
