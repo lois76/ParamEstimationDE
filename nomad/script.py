@@ -24,6 +24,6 @@ while not os.path.isfile('Result/result.csv'):
 with open('Result/result.csv') as csv_file:
 	csv_reader = csv.reader(csv_file, delimiter=' ')
 	row = next(csv_reader)
-	print(row[0] + output)
+	print(row[0] +" "+ output)
 
 run("rm -rf Result/", shell = True)
