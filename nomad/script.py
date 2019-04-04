@@ -18,6 +18,7 @@ run("docker wait scilab_nomad", shell = True)
 
 with open('Result/result.csv') as csv_file:
 	csv_reader = csv.reader(csv_file, delimiter=' ')
-	print next(csv_reader)[0] + output
+	row = next(csv_redear)
+	print(row[0] + output)
 
 run("rm -f Result/", shell = True)
