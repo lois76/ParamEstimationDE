@@ -1,0 +1,10 @@
+DIMENSION      12                   # number of variables
+BB_EXE         "$python3 script.py"
+X0             ( 14.836481 6.6315013 18.896929 25.960322 -85.441025 -13.936838 -44.581185 -62.71752  8.4141131 19.561526 6.2098612 -29.93655 )  # starting point
+LOWER_BOUND    ( 0.1       0.1        0.1      20        -90        -80        -90        -90      -90          1        1         -30 )
+UPPER_BOUND    ( 30       30         30       140         -2         30         10         10       10         30       30          -1)
+MAX_BB_EVAL    2000                  # the algorithm terminates when 1000 blackbox evaluations have been mad
+BB_OUTPUT_TYPE OBJ EB
+DISPLAY_DEGREE 2
+DISPLAY_ALL_EVAL yes
+DISPLAY_STATS BBE ( SOL ) OBJ
