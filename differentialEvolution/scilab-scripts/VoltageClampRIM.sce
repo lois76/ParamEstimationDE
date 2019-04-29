@@ -1,8 +1,5 @@
 // Récupération des données expérimentales sous forme de matrice
-a = read("/home/loisse/Documents/FichierScilab/FigS1RIMVoltageClampTrace.txt",-1,17);
-
-//t=a(239:1488,1)*10 - 1;
-//B=a(:,2:$)*1E12;
+a = read("/scilab-scripts/DataRIMVoltageClamp.txt",-1,17);
 A=a(239:1488,2:$)*1E12;
 t=linspace(0,50,1250);
 //write('/home/loisse/Documents/FichierScilab/EstimationSteadyStateCurent/EstimationSSLinear/A.txt',a);
@@ -181,20 +178,3 @@ function [bestMember, valBest]=simulation(NP,itermax,F,CR)
 //    plot(iterVec,costVec,2)
 
 endfunction
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
