@@ -2,7 +2,7 @@ args = sciargs();
 
 
 // Récupération des données expérimentales sous forme de matrice
-a = read("/scilab-scripts/FigS1RIMVoltageClampTrace.txt",-1,17);
+a = read("/scilab-scripts/DataRIMVoltageClamp.txt",-1,17);
 A=a(239:1488,2:$)*1E12;
 t=linspace(0,50,1250);
 
