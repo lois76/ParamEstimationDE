@@ -12,7 +12,7 @@ scilabScriptName = "VoltageClampRIM.sce"
 nbCpus = multiprocessing.cpu_count()
 maxNbSimPerParam = 20
 simId = 0
-with open('params.csv') as csv_file:
+with open('params_Voltage_Clamp.csv') as csv_file:
 	csv_reader = csv.reader(csv_file, delimiter=',')
 	line_count = 0
 	for row in csv_reader:
