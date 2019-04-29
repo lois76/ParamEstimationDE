@@ -5,7 +5,7 @@ import csv
 
 
 def nbContainers():
-	result=run("docker container ls | wc -l", shell=True, stdout=PIPE).stdout.decode('utf-8')
+	result=run("docker ps -aq | wc -l", shell=True, stdout=PIPE).stdout.decode('utf-8')
 	return int(result)-1
 
 scilabScriptName = "VoltageClampRIM.sce"
