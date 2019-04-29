@@ -8,7 +8,7 @@ def nbContainers():
 	result=run("docker container ls | wc -l", shell=True, stdout=PIPE).stdout.decode('utf-8')
 	return int(result)-1
 
-scilabScriptName = "EstimationSSAIY22parallel.sce"
+scilabScriptName = "VoltageClampRIM.sce"
 nbCpus = multiprocessing.cpu_count()
 maxNbSimPerParam = 20
 simId = 0
