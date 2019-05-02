@@ -2,29 +2,16 @@
 a = read("/scilab-scripts/DataRIMVoltageClamp.txt",-1,17);
 A=a(239:1488,2:$)*1E12;
 t=linspace(0,50,1250);
-//write('/home/loisse/Documents/FichierScilab/EstimationSteadyStateCurent/EstimationSSLinear/A.txt',a);
 
 ////////////////////////////////////////////////////////////////
 //// Estimation de [tx1 tx2 tx3 tx4 x1(0) x2(0) x3(0) x4(0) ////
 ////////////////////////////////////////////////////////////////
-
-////Premier jeu de paramètres : fonction coût = 0.3658
-//gCa=0.175; gK=29.65; gL=0.357;
-//ECa=103.15; EK=-5.996; EL=-66.719;
-//V12x1=-26.50; V12x2=-17.29; V12x3=-66.21;
-//kx1=11.60; kx2=8.89; kx3=-9.54;
 
 ////Deuxième jeu de paramètres : fonction coût = 0.3650
 gCa=0.175; gK=30; gL=0.366;
 ECa=113.32; EK=-38.646; EL=-68.808;
 V12x1=-34.411; V12x2=-37.415; V12x3=-69.735;
 kx1=16.995; kx2=5.225; kx3=-5.658;
-
-////Trosième jeu de paramètres : fonction coût = 0.3686
-//gCa=0.185; gK=0.255; gL=0.369;
-//ECa=113.964; EK=-33.134; EL=-68.44;
-//V12x1=-32.137; V12x2=-61.4288; V12x3=-41.539;
-//kx1=14.646; kx2=8.5508; kx3=-24.77;
 
 function y=xinf(VH,V12,k)
     y=1 ./(1+exp((V12-VH) ./k));
@@ -57,9 +44,8 @@ endfunction
 ////////////////////////////////////////////////////////
 
 function [bestMember, valBest]=simulation(NP,itermax,F,CR)
-    
+
     D=6; 
-//    costVec=zeros(1,itermax);
     pop=zeros(D,NP);
 
     ///////////////////////////////////////////////////////
@@ -77,7 +63,7 @@ function [bestMember, valBest]=simulation(NP,itermax,F,CR)
             pop(i,j)=Xmin(i)+(Xmax(i)-Xmin(i))*rand();
         end
     end
-    
+
     //////////////////////////////////////////////////////////////
     //// Évaluation du meilleur individu après initialisation ////
     //////////////////////////////////////////////////////////////
@@ -85,15 +71,15 @@ function [bestMember, valBest]=simulation(NP,itermax,F,CR)
     val = zeros(NP,1); // tableau avec le coût de chacun des individus
 
     // --------- Evalutation du premier individu après initialisation --------
-
+    bestIndex=1;
+    bestVal=%inf
     for j=1:NP
         val(j)=W(pop(:,j));
+        if val(j)<bestVal then
+            bestIndex=j;
+            bestVal=val(j);
+        end
     end 
-    
-    bestIndex=1;
-    for b=2:NP
-        if val(b)<val(bestIndex) then bestIndex=b; end
-    end
     costVec(1)=val(bestIndex);
 
     //// =============== ÉTAPE SUIVANTE ================
@@ -159,7 +145,6 @@ function [bestMember, valBest]=simulation(NP,itermax,F,CR)
         for b=2:NP
             if val(b)<val(bestIndex) then bestIndex=b; end
         end
-        costVec(iter)=val(bestIndex);
     end //fin de la boucle while
 
     
@@ -174,7 +159,4 @@ function [bestMember, valBest]=simulation(NP,itermax,F,CR)
     bestMember = [];
     bestMember = pop(:,bestIndex);
     valBest = val(bestIndex);
-//    iterVec=1:1:itermax
-//    plot(iterVec,costVec,2)
-
 endfunction
