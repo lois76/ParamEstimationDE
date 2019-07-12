@@ -24,7 +24,7 @@ with open('params_Voltage_Clamp.csv') as csv_file:
 			while nbSimPerParam < maxNbSimPerParam:
 				resultPath = "Result_"+row[0]+"_"+str(nbSimPerParam)+"_"+row[1]+"_"+row[2]+"_"+row[3]+"_"+row[4]
 				run("mkdir Results/"+resultPath, shell = True)
-				command = ["docker run --name scilab"+str(simId)+" --rm  -v $(pwd)/scilab-scripts:/scilab-scripts -v $(pwd)/Results/"+resultPath+":/Result scilab "+scilabScriptName+" "+row[1]+" "+row[2]+" "+row[3]+" "+row[4] + " > outputs/output_docker_"+str(simId)]
+				command = ["docker run --name scilab"+str(simId)+" --rm  -v $(pwd)/scilab-scripts:/scilab-scripts -v $(pwd)/Results/"+resultPath+":/Result scilab "+scilabScriptName+" "+row[1]+" "+row[2]+" "+row[3]+" "+row[4] + " > outputs/output_docker_" + str(simId) + " 2> outputs/output_docker_error_" + str(simId)]
 				Popen(command, shell = True)
 				simId += 1
 				nbSimPerParam += 1
