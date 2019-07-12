@@ -18,10 +18,6 @@ function y=Iinf(VH)
 endfunction
 
 vecV=[-100:10:50];
-//plot2d(VH,Iinf(VH),3)
-for i=1:length(vecV)
-    plot(vecV(i),Iinf(vecV(i)),'b+')
-end
 
 
 //pa=[25.31913545036314 7.089103872041187 0.4953453153730928 119.20016463657245 -47.61527118817742 -17.625711243895452 -6.455069029894645 -75.43521676361777 -24.470271226478673 -85.23875139930527 9.751113286530472 -17.22756685182511 2.5749795352730755 -23.67912116804757]
@@ -42,10 +38,9 @@ endfunction
 //// Estimation de [gCa gK gL ECa EK EL V1/2x1 V1/2x2 V1/2x3 V12x4 kx1 kx2 kx3 kx4] ////
 ////////////////////////////////////////////////////////////////////////////////////////
 
-function [bM]=SS(NP,itermax,F,CR)
+function [valBest]=simulation(NP,itermax,F,CR)
     
     D=14; 
-    costVec=zeros(1,itermax);
     pop=zeros(D,NP);
 
     ///////////////////////////////////////////////////////
@@ -79,7 +74,6 @@ function [bM]=SS(NP,itermax,F,CR)
     for b=2:NP
         if val(b)<val(bestIndex) then bestIndex=b; end
     end
-    costVec(1)=val(bestIndex);
     
     ////////////////////////
     //// Étape suivante ////
@@ -162,13 +156,11 @@ function [bM]=SS(NP,itermax,F,CR)
                 val(j) = tempval;
             end
         end
-        disp(iter)
         iter = iter + 1;
         bestIndex=1;
         for b=2:NP
             if val(b)<val(bestIndex) then bestIndex=b; end
         end
-        costVec(iter)=val(bestIndex);
     end  //fin de la boucle while
     
     // Détermination de l'indice du meilleur individu
@@ -181,21 +173,9 @@ function [bM]=SS(NP,itermax,F,CR)
     // Sauvegarde du meilleur individu
     bM = [];
     bM = pop(:,bestIndex);
-    
-    disp(val);
-    disp(bM);
-    disp(val(bestIndex));
+
+    valBest = val(bestIndex);
     
 //    iterVec=1:1:itermax;
 //    plot(iterVec,costVec,2)
 endfunction
-
-[bM]=SS(130,400,0.5,0.9)
-
-function y=M11(V)
-    y=bM(1)*xinf(V,bM(7),bM(11))*xinf(V,bM(8),bM(12))*(V-bM(4))+bM(2)*xinf(V,bM(9),bM(13))*xinf(V,bM(10),bM(14))*(V-bM(5))+bM(3)*(V-bM(6))
-endfunction
-
-for i=1:length(vecV)
-//    plot(vecV(i),M11(vecV(i)),'b*')
-end
