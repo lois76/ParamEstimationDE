@@ -8,11 +8,11 @@ def nbContainers():
 	result=run("docker ps -aq | wc -l", shell=True, stdout=PIPE).stdout.decode('utf-8')
 	return int(result)-1
 
-scilabScriptName = "VoltageClampRIM.sce"
+scilabScriptName = "EstimationSSBenchmark1Linear11.sce"
 nbCpus = multiprocessing.cpu_count()
 maxNbSimPerParam = 20
 simId = 0
-with open('params_Voltage_Clamp.csv') as csv_file:
+with open('params_Steady_Current.csv') as csv_file: # params_Voltage_Clamp
 	csv_reader = csv.reader(csv_file, delimiter=',')
 	line_count = 0
 	for row in csv_reader:
