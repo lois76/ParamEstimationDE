@@ -8,7 +8,7 @@ def nbContainers():
 	result=run("docker ps -aq | wc -l", shell=True, stdout=PIPE).stdout.decode('utf-8')
 	return int(result)-1
 
-scilabScriptName = "EstimationSSBenchmark2bistable11parallel.sce"
+scilabScriptName = "EstimationSSBenchmark2Bistable11parallel.sce"
 nbCpus = multiprocessing.cpu_count()
 maxNbSimPerParam = 20
 simId = 0
