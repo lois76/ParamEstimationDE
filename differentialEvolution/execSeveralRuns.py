@@ -9,7 +9,7 @@ def nbContainers():
 	return int(result)
 
 # Name of the script that should be run
-scilabScriptName = ".sce"
+scilabScriptName = "EstimationVoltageRIM11.sce"
 nbPop = 150
 nbIter = 900
 mutation = 0.5
