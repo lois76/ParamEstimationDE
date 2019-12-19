@@ -2,15 +2,11 @@
 ///////////////     Récupération données      ///////////////
 /////////////////////////////////////////////////////////////
 
-a = read("/home/naudinl/Documents/FichierScilab/EstimationRIM/Fig1ARIMCurrentClampTrace.txt",-1,12);
+a = read("/scilab-scripts/Fig1ARIMCurrentClampTrace.txt",-1,12);
 A=a(2489:14988,2:$)*1000;
-t=linspace(0,50,12500);
+t=linspace(0,50,20000);
 t0=0;
-
-for i=[1:1:11]
-//    plot2d(t,A(:,i),3)
-end
-
+stim=[-15:5:35];
 
 /////////////////////////////////////////////////////////////
 ///////////////    Fonction coût algorithme    //////////////
@@ -19,7 +15,6 @@ end
 function y=xinf(VH,V12,k)
     y=1 ./(1+exp((V12-VH) ./k));
 endfunction
-
 
 function [Hdot]=HH11(t,x,pa)
     Hdot=zeros(5,1);
@@ -31,8 +26,6 @@ function [Hdot]=HH11(t,x,pa)
 endfunction
 
 //Fonction coût 
-stim=[-15:5:35];
-t0=0;
 function y=fct11(pa)
     c=0;
     condini = [-38; pa(19); pa(20); pa(21); pa(22)]
@@ -48,16 +41,13 @@ function y=fct11(pa)
 endfunction
 
 
-
-
 ////////////////////////////////////////////////////////
 /////////    Estimation de la capacitance C    /////////
 ////////////////////////////////////////////////////////
 
-function [bM]=SS(NP,itermax,F,CR)
+function [bM, valBest]=simulation(NP,itermax,F,CR)
     
     D=23;
-//    costVec=zeros(1,itermax);
     pop=zeros(D,NP);
 
     ///////////////////////////////////////////////////////
@@ -224,21 +214,15 @@ function [bM]=SS(NP,itermax,F,CR)
     for b=2:NP
         if val(b)<val(bestIndex) then bestIndex=b; end
     end
-//    disp(bestIndex);
+    valBest=val(bestIndex);
     
     // Sauvegarde du meilleur individu
     bM = [];
     bM = pop(:,bestIndex);
     
-    disp(val);
-    disp(bM);
-    disp(val(bestIndex));
-    
-//    iterVec=1:1:itermax;
-//    plot(iterVec,costVec,2)
 endfunction
 
-[bM]=SS(190,800,0.5,0.85)
+
 
 
 
