@@ -13,8 +13,11 @@ prepare:
 	mkdir Results
 	mkdir outputs
 
-start:
+startParamEstimation:
 	python3 execDockers.py &> output_python
+
+startSeveralSameSimu:
+	python3 execSeveralRuns.py &> output_python
 
 archive:
 	tar -czf Results-$(shell date +'%Y%m%d').tar.gz ./Results
