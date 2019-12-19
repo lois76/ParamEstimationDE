@@ -4,7 +4,7 @@
 
 a = read("/scilab-scripts/Fig1ARIMCurrentClampTrace.txt",-1,12);
 A=a(2489:14988,2:$)*1000;
-t=linspace(0,50,20000);
+t=linspace(0,50,12500);
 t0=0;
 stim=[-15:5:35];
 
