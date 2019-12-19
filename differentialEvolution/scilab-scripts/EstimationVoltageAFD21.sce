@@ -2,15 +2,11 @@
 ///////////////     Récupération données      ///////////////
 /////////////////////////////////////////////////////////////
 
-a = read("/home/naudinl/Documents/FichierScilab/EstimationAFD/Fig 1A_AFD Current-Clamp Trace.txt",-1,12);
+a = read("/scilab-scripts/Fig 1A_AFD Current-Clamp Trace.txt",-1,12);
 A=a(2489:14988,2:$)*1000;
-t=linspace(0,50,12500);
-
-for i=[1:1:11]
-//    plot2d(t,A(:,i),3)
-end
-
-
+t=linspace(0,50,30000);
+t0=0;
+stim=[-15:5:35];
 
 /////////////////////////////////////////////////////////////
 ///////////////    Fonction coût algorithme    //////////////
@@ -30,8 +26,7 @@ function [Hdot]=HH21(t,x,pa)
 endfunction
 
 //Fonction coût 
-stim=[-15:5:35];
-t0=0;
+
 function y=fct11(pa)
     c=0;
     condini = [-78; pa(16); pa(17); pa(18)]
@@ -48,12 +43,11 @@ endfunction
 
 
 
-
 ////////////////////////////////////////////////////////
 /////////    Estimation de la capacitance C    /////////
 ////////////////////////////////////////////////////////
 
-function [bM]=SS(NP,itermax,F,CR)
+function [bM, valBest]=simulation(NP,itermax,F,CR)
     
     D=19;
 //    costVec=zeros(1,itermax);
@@ -197,7 +191,6 @@ function [bM]=SS(NP,itermax,F,CR)
                 val(j) = tempval;
             end
         end
-        disp(iter)
         iter = iter + 1;
         bestIndex=1;
         for b=2:NP
@@ -211,21 +204,14 @@ function [bM]=SS(NP,itermax,F,CR)
     for b=2:NP
         if val(b)<val(bestIndex) then bestIndex=b; end
     end
-//    disp(bestIndex);
+    valBest=val(bestIndex);
     
     // Sauvegarde du meilleur individu
     bM = [];
     bM = pop(:,bestIndex);
     
-    disp(val);
-    disp(bM);
-    disp(val(bestIndex));
-    
-//    iterVec=1:1:itermax;
-//    plot(iterVec,costVec,2)
 endfunction
 
-[bM]=SS(160,1000,0.5,0.85)
 
 
 

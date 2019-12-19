@@ -23,7 +23,7 @@ function [Hdot]=HH11ref(t,x)
     Hdot(4)=(xinf(x(1),V12x3,kx3)-x(4))/tx3
 endfunction
 
-t=linspace(0,50,100000);
+t=linspace(0,50,30000);
 t0=0;
 a=zeros(length(t),11);
 stim=[-15:5:35];
@@ -34,11 +34,7 @@ for i=1:11
     x1=x(1,:);
     x1=x1';
     a(:,i)=x1;
-    plot2d(t,x1,2)
 end
-
-
-
 
 
 /////////////////////////////////////////////////////////////
@@ -80,10 +76,9 @@ endfunction
 /////////    Estimation de la capacitance C    /////////
 ////////////////////////////////////////////////////////
 
-function [bM]=SS(NP,itermax,F,CR)
+function [bM, valBest]=simulation(NP,itermax,F,CR)
     
     D=19;
-//    costVec=zeros(1,itermax);
     pop=zeros(D,NP);
 
     ///////////////////////////////////////////////////////
@@ -218,7 +213,6 @@ function [bM]=SS(NP,itermax,F,CR)
                 val(j) = tempval;
             end
         end
-        disp(iter)
         iter = iter + 1;
         bestIndex=1;
         for b=2:NP
@@ -232,21 +226,14 @@ function [bM]=SS(NP,itermax,F,CR)
     for b=2:NP
         if val(b)<val(bestIndex) then bestIndex=b; end
     end
-//    disp(bestIndex);
+    valBest=val(bestIndex);
     
     // Sauvegarde du meilleur individu
     bM = [];
     bM = pop(:,bestIndex);
     
-    disp(val);
-    disp(bM);
-    disp(val(bestIndex));
-    
-//    iterVec=1:1:itermax;
-//    plot(iterVec,costVec,2)
 endfunction
 
-[bM]=SS(180,800,0.5,0.85)
 
 
 
