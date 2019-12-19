@@ -10,8 +10,8 @@ def nbContainers():
 
 # Name of the script that should be run
 scilabScriptName = "EstimationVoltageRIM11.sce"
-nbPop = 150
-nbIter = 900
+nbPop = 190
+nbIter = 1000
 mutation = 0.5
 crossover = 0.85
 
@@ -28,7 +28,7 @@ lastBackup = datetime.now()
 startingIndex = 1
 
 # The index of the last simulation
-endingIndex = 
+endingIndex = 30
 
 # The index of the simulation to start next
 nbSimStarted = startingIndex
