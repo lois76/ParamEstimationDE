@@ -11,7 +11,7 @@ def nbContainers():
 # Name of the script that should be run
 scilabScriptName = ".sce"
 nbPop = 150
-nbIter = 800
+nbIter = 900
 mutation = 0.5
 crossover = 0.85
 
