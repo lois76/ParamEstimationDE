@@ -23,7 +23,7 @@ function [Hdot]=HH11ref(t,x)
     Hdot(5)=(xinf(x(1),V12x4,kx4)-x(5))/tx4
 endfunction
 
-t=linspace(0,50,30000);
+t=linspace(0,50,12500);
 t0=0;
 a=zeros(length(t),11);
 stim=[-15:5:35];
