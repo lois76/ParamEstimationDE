@@ -20,7 +20,7 @@ startSeveralSameSimu:
 	python3 execSeveralRuns.py &> output_python
 
 archive:
-	tar -czf Results-$(shell date +'%Y%m%d').tar.gz ./Results
+	tar -czf Results-$(shell date +'%Y%m%d').tar.gz ./Results ./outputs ./output_python
 
 extract:
 	tar -zxf *.tar.gz
