@@ -55,8 +55,8 @@ function [bM, valBest]=simulation(NP,itermax,F,CR)
     //// Vecteurs de contraintes borne minimum/maximum ////
     ///////////////////////////////////////////////////////
 
-    Xmin=[0.1 0.1 0.1 20  -90 -80 -90 -90 -90  1  -30  1   0.0001 0.0001 0.0001 0.001 0.001 0.001 0.001];
-    Xmax=[50  50  50  150 -2  30  -2  -2  -2   30 -1   30  15     15     15     0.999 0.999 0.999 10];
+    Xmin=[0.1 0.1 0.1 20  -100 -90 -90 -90 -90  1  -30  1   0.0001 0.0001 0.0001 0.001 0.001 0.001 0.001];
+    Xmax=[50  50  50  150 -2   30  -2  -2  -2   30 -1   30  15     15     15     0.999 0.999 0.999 10];
     
     /////////////////////////////////////////
     //// Initialisation de ma population ////
@@ -207,6 +207,8 @@ function [bM, valBest]=simulation(NP,itermax,F,CR)
     // Sauvegarde du meilleur individu
     bM = [];
     bM = pop(:,bestIndex);
+    
+    disp(val);
     
 endfunction
 

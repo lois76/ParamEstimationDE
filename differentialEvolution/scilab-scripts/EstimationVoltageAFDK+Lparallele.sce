@@ -145,12 +145,6 @@ function [bM, valBest]=simulation(NP,itermax,F,CR)
             if V(12)<=Xmin(12) then V(12)=Xmin(12);
             elseif V(12)>Xmax(12) then V(12)=Xmax(12);
             end
-            if V(11)<=Xmin(11) then V(11)=Xmin(11);
-            elseif V(11)>Xmax(11) then V(11)=Xmax(11);
-            end
-            if V(12)<=Xmin(12) then V(12)=Xmin(12);
-            elseif V(12)>Xmax(12) then V(12)=Xmax(12);
-            end
             if V(13)<=Xmin(13) then V(13)=Xmin(13);
             elseif V(13)>Xmax(13) then V(13)=Xmax(13);
             end

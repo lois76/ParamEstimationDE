@@ -193,4 +193,5 @@ function [bM, valBest]=simulation(NP,itermax,F,CR)
     bM = [];
     bM = pop(:,bestIndex);
     
+    disp(val);
 endfunction
