@@ -2,11 +2,12 @@
 ///////////////     Récupération données      ///////////////
 /////////////////////////////////////////////////////////////
 
-a = read("/scilab-scripts/Fig1ARIMCurrentClampTrace.txt",-1,12);
+a = read("/scilab-scripts/Fig 1A_AIY Current-Clamp Trace.txt",-1,12);
 A=a(2489:14988,2:$)*1000;
 t=linspace(0,50,12500);
 t0=0;
 stim=[-15:5:35];
+
 
 /////////////////////////////////////////////////////////////
 ///////////////    Fonction coût algorithme    //////////////
@@ -17,18 +18,17 @@ function y=xinf(VH,V12,k)
 endfunction
 
 function [Hdot]=HH11(t,x,pa)
-    Hdot=zeros(5,1);
-    Hdot(1)=(1/pa(26))*(-pa(1)*x(2)*x(3)*(x(1)-pa(5)) - pa(2)*xinf(x(1),pa(10),pa(15))*(x(1)-pa(6)) - pa(3)*x(4)*x(5)*(x(1)-pa(6)) - pa(4)*(x(1)-pa(7)) + I)
-    Hdot(2)=(xinf(x(1),pa(8),pa(13))-x(2))/pa(18)
-    Hdot(3)=(xinf(x(1),pa(9),pa(14))-x(3))/pa(19)
-    Hdot(4)=(xinf(x(1),pa(11),pa(16))-x(4))/pa(20)
-    Hdot(5)=(xinf(x(1),pa(12),pa(17))-x(5))/pa(21)
+    Hdot=zeros(4,1);
+    Hdot(1)=(1/pa(22))*(-pa(1)*x(2)*x(3)*(x(1)-pa(5)) - pa(2)*xinf(x(1),pa(10),pa(14))*(x(1)-pa(6)) - pa(3)*x(4)*(x(1)-pa(6)) - pa(4)*(x(1)-pa(7)) + I)
+    Hdot(2)=(xinf(x(1),pa(8),pa(12))-x(2))/pa(16)
+    Hdot(3)=(xinf(x(1),pa(9),pa(13))-x(3))/pa(17)
+    Hdot(4)=(xinf(x(1),pa(11),pa(15))-x(4))/pa(18)
 endfunction
 
 //Fonction coût 
 function y=fct11(pa)
     c=0;
-    condini = [-38; pa(22); pa(23); pa(24); pa(25)]
+    condini = [-53; pa(19); pa(20); pa(21)]
     for i=1:11
         I=stim(i);
         x=ode(condini,t0,t,HH11); 
@@ -47,15 +47,15 @@ endfunction
 
 function [bM, valBest]=simulation(NP,itermax,F,CR)
     
-    D=26;
+    D=22;
     pop=zeros(D,NP);
 
     ///////////////////////////////////////////////////////
     //// Vecteurs de contraintes borne minimum/maximum ////
     ///////////////////////////////////////////////////////
 
-    Xmin=[0.1 0.1 0.1 0.1 20  -100 -90 -90 -90 -90 -90 -90 1  -30 -30 1  -30 0.0001 0.0001 0.0001 0.0001 0.001 0.001 0.001 0.001 0.001];
-    Xmax=[50  50  50  50  150 -2   30  -2  -2  -2  -2  -2   30 -1  -1  30 -1  15     15     15     15     0.999 0.999 0.999 0.999 10];
+    Xmin=[0.1 0.1 0.1 0.1 20  -100 -90 -90 -90 -90 -90 1  -30 -30 1  0.0001 0.0001 0.0001 0.001 0.001 0.001 0.001];
+    Xmax=[50  50  50  50  150 -2   30  -2  -2  -2  -2  30 -1  -1  30 15     15     15     0.999 0.999 0.999 10];
     
     /////////////////////////////////////////
     //// Initialisation de ma population ////
@@ -77,7 +77,7 @@ function [bM, valBest]=simulation(NP,itermax,F,CR)
         val(j)=fct11(pop(:,j))
     end
     
-    disp(val);
+    disp(val)
     
     bestIndex=1;
     for b=2:NP
@@ -172,18 +172,6 @@ function [bM, valBest]=simulation(NP,itermax,F,CR)
             if V(22)<=Xmin(22) then V(22)=Xmin(22);
             elseif V(22)>Xmax(22) then V(22)=Xmax(22);
             end
-            if V(23)<=Xmin(23) then V(23)=Xmin(23);
-            elseif V(23)>Xmax(23) then V(23)=Xmax(23);
-            end
-            if V(24)<=Xmin(24) then V(24)=Xmin(24);
-            elseif V(24)>Xmax(24) then V(24)=Xmax(24);
-            end
-            if V(25)<=Xmin(25) then V(25)=Xmin(25);
-            elseif V(25)>Xmax(25) then V(25)=Xmax(25);
-            end
-            if V(26)<=Xmin(26) then V(26)=Xmin(26);
-            elseif V(26)>Xmax(26) then V(26)=Xmax(26);
-            end
             // ======== Crossover ========
             for i=1:D
                 if rand()<CR then
@@ -223,8 +211,8 @@ function [bM, valBest]=simulation(NP,itermax,F,CR)
     bM = [];
     bM = pop(:,bestIndex);
     
+    disp(val)
 endfunction
-
 
 
 
