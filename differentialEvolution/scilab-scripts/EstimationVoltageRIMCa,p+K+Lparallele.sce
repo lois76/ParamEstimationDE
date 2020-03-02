@@ -185,6 +185,7 @@ function [bM, valBest]=simulation(NP,itermax,F,CR)
                 val(j) = tempval;
             end
         end
+        disp(iter);
         iter = iter + 1;
         bestIndex=1;
         for b=2:NP
@@ -204,6 +205,7 @@ function [bM, valBest]=simulation(NP,itermax,F,CR)
     bM = [];
     bM = pop(:,bestIndex);
     
+    disp(val);
 endfunction
 
 
