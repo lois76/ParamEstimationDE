@@ -173,8 +173,6 @@ function [bM, valBest]=simulation(NP,itermax,F,CR)
 //    plot(iterVec,costVec,2)
 endfunction
 
-[bM, valBest]=SS(10,3,0.5,0.85)
-
 
 
 
