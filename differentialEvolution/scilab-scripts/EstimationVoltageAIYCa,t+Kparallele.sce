@@ -26,7 +26,7 @@ endfunction
 
 //Fonction coût 
 
-function y=fct11(pa)
+function y=fct22(pa)
     c=0;
     condini = [-53; pa(14); pa(15); pa(16)]
     for i=1:11
