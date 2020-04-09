@@ -1,54 +1,61 @@
 /////////////////////////////////////////////////////////////
-///////////////     Simulation Benchmark      ///////////////
+///////////////     Récupération données      ///////////////
 /////////////////////////////////////////////////////////////
 
-function y=xinf(V,V12,k)
-    y=1 ./(1+exp((V12-V) ./k));
+a = read("/scilab-scripts/Fig 1A_AIY Current-Clamp Trace.txt",-1,12);
+A=a(2489:14988,2:$)*1000;
+t=linspace(0,50,12500);
+t0=0;
+stim=[-15:5:35];
+
+/////////////////////////////////////////////////////////////
+///////////////    Fonction coût algorithme    //////////////
+/////////////////////////////////////////////////////////////
+
+function y=xinf(VH,V12,k)
+    y=1 ./(1+exp((V12-VH) ./k));
 endfunction
 
-//Paramètres du benchmark
-gCa=0.4;  gK=0.9; gL=0.24;
-ECa=126.5; EK=-86; EL=-49;
-V12x1=-4.3;  V12x2=-13.01;  V12x3=-51.7; V12x4=-82.2;
-kx1=22.8; kx2=-29.9; kx3=10.8; kx4=-3.3;
-
-//
-function y=Iinf(VH)
-    y=gCa.*xinf(VH,V12x1,kx1).*xinf(VH,V12x2,kx2).*(VH-ECa)+gK.*xinf(VH,V12x3,kx3).*xinf(VH,V12x4,kx4).*(VH-EK)+gL.*(VH-EL)
+function [Hdot]=HH12(t,x,pa)
+    Hdot=zeros(4,1);
+    Hdot(1)=(1/pa(17))*(-pa(1)*x(2)*x(3)*(x(1)-pa(3))-pa(2)*x(4)*(x(1)-pa(4))+I)
+    Hdot(2)=(xinf(x(1),pa(5),pa(8))-x(2))/pa(11)
+    Hdot(3)=(xinf(x(1),pa(6),pa(9))-x(3))/pa(12)
+    Hdot(4)=(xinf(x(1),pa(7),pa(10))-x(4))/pa(13)
 endfunction
-
-vecV=[-100:10:50];
-
-
-//pa=[25.31913545036314 7.089103872041187 0.4953453153730928 119.20016463657245 -47.61527118817742 -17.625711243895452 -6.455069029894645 -75.43521676361777 -24.470271226478673 -85.23875139930527 9.751113286530472 -17.22756685182511 2.5749795352730755 -23.67912116804757]
 
 //Fonction coût 
-function y=W(pa)
-    e=0;
-    for i=1:length(vecV)
-        e=e+(Iinf(vecV(i))-(pa(1)*xinf(vecV(i),pa(7),pa(11))*xinf(vecV(i),pa(8),pa(12))*(vecV(i)-pa(4))+pa(2)*xinf(vecV(i),pa(9),pa(13))*xinf(vecV(i),pa(10),pa(14))*(vecV(i)-pa(5))+pa(3)*(vecV(i)-pa(6))))^2
+
+function y=fct11(pa)
+    c=0;
+    condini = [-53; pa(14); pa(15); pa(16)]
+    for i=1:11
+        I=stim(i);
+        x=ode(condini,t0,t,HH12); 
+        V=x(1,:);
+        for k=1:length(t)
+            c=c+(V(k)-A(k,i))*(V(k)-A(k,i))
+        end
     end
-    y=e/length(vecV)
+    y=c/length(t);
 endfunction
 
-//disp(W(pa))
-
-
-////////////////////////////////////////////////////////////////////////////////////////
-//// Estimation de [gCa gK gL ECa EK EL V1/2x1 V1/2x2 V1/2x3 V12x4 kx1 kx2 kx3 kx4] ////
-////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
+/////////    Estimation de la capacitance C    /////////
+////////////////////////////////////////////////////////
 
 function [bM, valBest]=simulation(NP,itermax,F,CR)
     
-    D=14; 
+    D=17;
+//    costVec=zeros(1,itermax);
     pop=zeros(D,NP);
 
     ///////////////////////////////////////////////////////
     //// Vecteurs de contraintes borne minimum/maximum ////
     ///////////////////////////////////////////////////////
 
-    Xmin=[0.1 0.1 0.1 20  -90 -80 -90 -90 -90 -90 1  -30 1  -30];
-    Xmax=[30  30  30  150 -2  30  -2  -2  -2  -2  30 -1  30 -1];
+    Xmin=[0.1 0.1 20  -100 -90 -90 -90 1  -30 1  0.0001 0.0001 0.0001 0.001 0.001 0.001 0.001];
+    Xmax=[30  30  150 -2   -2  -2  -2  30 -1  30 15     15     15     0.999 0.999 0.999 10];
     
     /////////////////////////////////////////
     //// Initialisation de ma population ////
@@ -59,17 +66,20 @@ function [bM, valBest]=simulation(NP,itermax,F,CR)
             pop(i,j)=Xmin(i)+(Xmax(i)-Xmin(i))*rand();
         end
     end
-
+    
+    
     //////////////////////////////////////////////////////////////
     //// Évaluation du meilleur individu après initialisation ////
     //////////////////////////////////////////////////////////////
     
     val=zeros(NP,1); // tableau avec le coût de chacun des individus
-
-    for j=1:NP
-        val(j)=W(pop(:,j))
-    end
     
+    for j=1:NP
+        val(j)=fct22(pop(:,j))
+    end
+
+    disp(val)
+
     bestIndex=1;
     for b=2:NP
         if val(b)<val(bestIndex) then bestIndex=b; end
@@ -95,6 +105,7 @@ function [bM, valBest]=simulation(NP,itermax,F,CR)
             end
             // ======== Variation différentielle =======
             V=pop(:,r1) + F*(pop(:,r2)-pop(:,r3));
+            
             if V(1)<=Xmin(1) then V(1)=Xmin(1);
             elseif V(1)>Xmax(1) then V(1)=Xmax(1);
             end
@@ -137,6 +148,15 @@ function [bM, valBest]=simulation(NP,itermax,F,CR)
             if V(14)<=Xmin(14) then V(14)=Xmin(14);
             elseif V(14)>Xmax(14) then V(14)=Xmax(14);
             end
+            if V(15)<=Xmin(15) then V(15)=Xmin(15);
+            elseif V(15)>Xmax(15) then V(15)=Xmax(15);
+            end
+            if V(16)<=Xmin(16) then V(16)=Xmin(16);
+            elseif V(16)>Xmax(16) then V(16)=Xmax(16);
+            end
+            if V(17)<=Xmin(17) then V(17)=Xmin(17);
+            elseif V(17)>Xmax(17) then V(17)=Xmax(17);
+            end
             // ======== Crossover ========
             for i=1:D
                 if rand()<CR then
@@ -149,18 +169,20 @@ function [bM, valBest]=simulation(NP,itermax,F,CR)
     
     // ======== Sélection ========
         for j=1:NP
-            tempval=W(U(:,j));
+            tempval=fct22(U(:,j));
 
             if tempval<=val(j) then
                 pop(:,j) = U(:,j);
                 val(j) = tempval;
             end
         end
+        disp(iter)
         iter = iter + 1;
         bestIndex=1;
         for b=2:NP
             if val(b)<val(bestIndex) then bestIndex=b; end
         end
+        costVec(iter)=val(bestIndex);
     end  //fin de la boucle while
     
     // Détermination de l'indice du meilleur individu
@@ -173,9 +195,11 @@ function [bM, valBest]=simulation(NP,itermax,F,CR)
     // Sauvegarde du meilleur individu
     bM = [];
     bM = pop(:,bestIndex);
-
-    valBest = val(bestIndex);
     
+    disp(val);
+    disp(bM);
+    disp(val(bestIndex));
+    valBest=val(bestIndex);
 //    iterVec=1:1:itermax;
 //    plot(iterVec,costVec,2)
 endfunction
