@@ -165,12 +165,6 @@ function [bM, valBest]=simulation(NP,itermax,F,CR)
             if V(20)<=Xmin(20) then V(20)=Xmin(20);
             elseif V(20)>Xmax(20) then V(20)=Xmax(20);
             end
-            if V(21)<=Xmin(21) then V(21)=Xmin(21);
-            elseif V(21)>Xmax(21) then V(21)=Xmax(21);
-            end
-            if V(22)<=Xmin(22) then V(22)=Xmin(22);
-            elseif V(22)>Xmax(22) then V(22)=Xmax(22);
-            end
             // ======== Crossover ========
             for i=1:D
                 if rand()<CR then
@@ -213,6 +207,5 @@ function [bM, valBest]=simulation(NP,itermax,F,CR)
     disp(val)
 endfunction
 
-[bM, valBest]=simulation(3,2,0.5,0.9)
 
 
