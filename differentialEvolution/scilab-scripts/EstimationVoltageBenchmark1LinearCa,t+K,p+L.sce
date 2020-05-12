@@ -104,10 +104,9 @@ endfunction
 ////     Parameter estimation     ////
 //////////////////////////////////////
 
-function [valBest, bM]=SS(NP,itermax,F,CR)
+function [bM, valBest]=simulation(NP,itermax,F,CR)
 
     D=7; 
-//    costVec=zeros(1,itermax);
     pop=zeros(D,NP);
 
     ///////////////////////////////////////////////////////
@@ -231,4 +230,4 @@ function [valBest, bM]=SS(NP,itermax,F,CR)
     disp(val(bestIndex));
 endfunction
 
-//[bM, valBest]=SS(50,100,0.5,0.9)
+
