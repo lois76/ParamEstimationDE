@@ -47,7 +47,7 @@ stim=[-15:5:35];
 
 /// Construction des solutions ///
 t0=0;
-t=linspace(0,50,12500)
+t=linspace(0,50,12500);
 t=t';
 a=zeros(length(t),12);
 a(:,1)=t;
@@ -94,7 +94,7 @@ function y=fct(pa)
         x=ode(condini,t0,t,HH12); 
         V=x(1,:);
         for k=1:length(t)
-            c=c+(V(k)-A(k,i))*(V(k)-A(k,i))
+            c=c+(V(k)-a(k,i))*(V(k)-a(k,i))
         end
     end
     y=c/length(t);
@@ -229,5 +229,7 @@ function [bM, valBest]=simulation(NP,itermax,F,CR)
     disp(bM);
     disp(val(bestIndex));
 endfunction
+
+[bM, valBest]=simulation(70,200,0.5,0.9)
 
 
