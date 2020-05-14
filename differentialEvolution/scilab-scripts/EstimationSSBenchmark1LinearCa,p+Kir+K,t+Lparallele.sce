@@ -214,3 +214,5 @@ function [bM, valBest]=simulation(NP,itermax,F,CR)
 //    iterVec=1:1:itermax;
 //    plot(iterVec,costVec,2)
 endfunction
+
+[bM, valBest]=simulation(100,500,0.5,0.9)
