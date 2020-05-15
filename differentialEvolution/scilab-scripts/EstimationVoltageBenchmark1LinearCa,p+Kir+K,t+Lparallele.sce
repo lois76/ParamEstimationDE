@@ -40,7 +40,7 @@ endfunction
 
 function [Hdot]=HHbench(t,x,pa)
     Hdot=zeros(4,1);
-    Hdot(1)=(1/C)*(-gCa*x(2)*x(3)*(x(1)-ECa) - gKir*xinf(x(1),V12hKir,kKir)*(x(1)-EK) - gK*x(4)*(x(1)-EK) - gL*(x(1)-EL) + I)
+    Hdot(1)=(1/C)*(-gCa*x(2)*(x(1)-ECa) - gKir*xinf(x(1),V12hKir,kKir)*(x(1)-EK) - gK*x(3)*x(4)*(x(1)-EK) - gL*(x(1)-EL) + I)
     Hdot(2)=(xinf(x(1),V12mCa,kmCa)-x(2))/tmCa
     Hdot(3)=(xinf(x(1),V12mK,kmK)-x(3))/tmK
     Hdot(4)=(xinf(x(1),V12hK,khK)-x(4))/thK
