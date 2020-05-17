@@ -17,7 +17,7 @@ bc=[4.7
   -55.4  
     28.6  
   -19.6 
-    4.1  
+    14.1  
   -15.4]
 
 gCa=bc(1); gKir=bc(2); gK=bc(3); gL=bc(4);
@@ -35,6 +35,7 @@ vecV=[-110:10:50]
 function y=xinf(V,V12,k)
     y=1 ./(1+exp((V12-V) ./k));
 endfunction
+
 
 function y=Iinf(VH)
     y = gCa.*xinf(VH,V12mCa,kmCa).*(VH-ECa) + gKir.*xinf(VH,V12hKir,kKir).*(VH-EK) + gK.*xinf(VH,V12mK,kmK).*xinf(VH,V12hK,khK).*(VH-EK) + gL.*(VH-EL)
