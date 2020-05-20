@@ -184,6 +184,5 @@ function [bM, valBest]=simulation(NP,itermax,F,CR)
     disp(val(bestIndex));
 endfunction
 
-[bM,valBest]=simulation(100,300,0.5,0.9)
     
 
