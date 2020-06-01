@@ -32,7 +32,7 @@ Fl=0.1; Fu=0.9;
 t1=0.1; t2=0.1;
 
 // Ici, F et CR sont juste les valeurs initiales des 
-function [bM, valBest]=simulation(NP,itermax)
+function [bM, valBest]=simulation(NP,itermax,F,CR)
     
     D=15;
 //    costVec=zeros(1,itermax);
