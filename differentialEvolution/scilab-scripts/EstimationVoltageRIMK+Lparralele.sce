@@ -58,7 +58,7 @@ function [bM, valBest]=simulation(NP,itermax,F,CR)
     ///////////////////////////////////////////////////////
 
     Xmin=[0.1 0.1 -100 -90 -90 -90 1  -30  1  1  0.0001 0.001 0.001];
-    Xmax=[30  30  -2   30  -2  -2  30 -1   15 15 0.999  0.999 10];
+    Xmax=[50  50  -2   30  -2  -2  30 -1   15 15 0.999  0.999 10];
     
     /////////////////////////////////////////
     //// Initialisation de ma population ////
@@ -145,12 +145,6 @@ function [bM, valBest]=simulation(NP,itermax,F,CR)
             if V(12)<=Xmin(12) then V(12)=Xmin(12);
             elseif V(12)>Xmax(12) then V(12)=Xmax(12);
             end
-            if V(11)<=Xmin(11) then V(11)=Xmin(11);
-            elseif V(11)>Xmax(11) then V(11)=Xmax(11);
-            end
-            if V(12)<=Xmin(12) then V(12)=Xmin(12);
-            elseif V(12)>Xmax(12) then V(12)=Xmax(12);
-            end
             if V(13)<=Xmin(13) then V(13)=Xmin(13);
             elseif V(13)>Xmax(13) then V(13)=Xmax(13);
             end
@@ -200,8 +194,6 @@ function [bM, valBest]=simulation(NP,itermax,F,CR)
 //    iterVec=1:1:itermax;
 //    plot(iterVec,costVec,2)
 endfunction
-
-[bM, valBest]=simulation(140,300,0.5,0.85)
 
 
 
