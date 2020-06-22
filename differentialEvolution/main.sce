@@ -9,3 +9,5 @@ exec("/scilab-scripts/"+args(6))
 
 csvWrite(valBest,"/Result/result.csv")
 csvWrite(bM,"/Result/bM.csv")
+csvWrite(costVec,"/Result/costVec.csv")
+
