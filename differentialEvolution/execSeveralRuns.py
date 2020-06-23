@@ -12,8 +12,8 @@ def nbContainers():
 scilabScriptName = "EstimationVoltageRIM11.sce"
 nbPop = 190
 nbIter = 1000
-mutation = 0.5
-crossover = 0.85
+#mutation = 0.5
+#crossover = 0.85
 
 # Starting date
 startingDate = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
