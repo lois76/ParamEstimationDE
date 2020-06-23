@@ -60,7 +60,7 @@ endfunction
 Fl=0.1; Fu=0.9;
 t1=0.1; t2=0.1;
 
-function [bM, valBest, costVec]=simulation(NP,itermax,F,CR)
+function [bM, valBest, costVec]=simulation(NP,itermax)
     
     D=17;//15+2 because of F and CR parameters included in individuals
     costVec=zeros(1,itermax);
@@ -195,6 +195,7 @@ function [bM, valBest, costVec]=simulation(NP,itermax,F,CR)
     disp(val);
 //    disp(bM);
     disp(val(bestIndex));
+    disp(vecF);
     
 //    iterVec=1:1:itermax;
 //    plot(iterVec,costVec,2)
