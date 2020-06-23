@@ -1,7 +1,7 @@
 all: build clean prepare start
 
 build:
-	docker build -t scilab_v2 .
+	docker build -t scilab .
 
 clean:
 	docker stop $(shell docker ps -aq) || true && docker rm $(shell docker ps -aq) || true
