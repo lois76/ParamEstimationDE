@@ -60,7 +60,7 @@ endfunction
 Fl=0.1; Fu=0.9;
 t1=0.1; t2=0.1;
 
-function [bM, valBest, costVec]=simulation(NP,itermax)
+function [bM, valBest, costVec, vecF, vecCR]=simulation(NP,itermax)
     
     D=17;//15+2 because of F and CR parameters included in individuals
     costVec=zeros(1,itermax);
