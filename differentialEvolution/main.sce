@@ -10,7 +10,7 @@ exec("/scilab-scripts/"+args(6))
 
 csvWrite(valBest,"/Result/result.csv")
 csvWrite(bM,"/Result/bM.csv")
-csvWrite(costVec,"/Result/costVec.csv")
-csvWrite(vecF,"/Result/vecF.csv")
-csvWrite(vecCR,"/Result/vecCR.csv")
+//csvWrite(costVec,"/Result/costVec.csv")
+//csvWrite(vecF,"/Result/vecF.csv")
+//csvWrite(vecCR,"/Result/vecCR.csv")
 
