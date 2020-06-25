@@ -44,7 +44,7 @@ endfunction
 /////////    Estimation de la capacitance C    /////////
 ////////////////////////////////////////////////////////
 
-function [bM, valBest, costVec]=simulation(NP,itermax,F,CR)
+function [bM, valBest]=simulation(NP,itermax,F,CR)
     
     D=24;
     costVec=zeros(1,itermax);
