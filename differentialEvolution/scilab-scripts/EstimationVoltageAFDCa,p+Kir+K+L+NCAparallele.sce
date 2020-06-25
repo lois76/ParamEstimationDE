@@ -18,7 +18,7 @@ endfunction
 
 function [Hdot]=HH11(t,x,pa)
     Hdot=zeros(4,1);
-    Hdot(1)=(1/pa(24))*(-pa(1)*x(2)*(x(1)-pa(6)) - pa(2)*xinf(x(1),pa(11),pa(15))*(x(1)-pa(7)) - pa(3)*x(3)*x(7)*(x(1)-pa(7)) - pa(4)*(x(1)-pa(8)) + pa(5)*(x(1)-pa(9)) + I)
+    Hdot(1)=(1/pa(24))*(-pa(1)*x(2)*(x(1)-pa(6)) - pa(2)*xinf(x(1),pa(11),pa(15))*(x(1)-pa(7)) - pa(3)*x(3)*x(4)*(x(1)-pa(7)) - pa(4)*(x(1)-pa(8)) - pa(5)*(x(1)-pa(9)) + I)
     Hdot(2)=(xinf(x(1),pa(10),pa(14))-x(2))/pa(18)
     Hdot(3)=(xinf(x(1),pa(12),pa(16))-x(3))/pa(19)
     Hdot(4)=(xinf(x(1),pa(13),pa(17))-x(4))/pa(20)
@@ -153,7 +153,5 @@ function [bM, valBest]=simulation(NP,itermax,F,CR)
     
     disp(val);
 endfunction
-
-
 
 
