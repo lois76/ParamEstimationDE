@@ -38,8 +38,8 @@ while nbSimStarted <= endingIndex:
 	resultPath = "run_"+str(scilabScriptName)+"_"+str(nbSimStarted)
 	run("mkdir Results/"+resultPath, shell = True)
 
-	#command = ["docker run --name scilab"+str(nbSimStarted)+" --rm  -v $(pwd)/scilab-scripts:/scilab-scripts -v $(pwd)/Results/"+resultPath+":/Result scilab "+scilabScriptName+" "+str(nbPop)+" "+str(nbIter)+" "+str(mutation)+" "+str(crossover)+ " > outputs/output_docker_" + str(nbSimStarted) + " 2> outputs/output_docker_error_" + str(nbSimStarted)]
-	command = ["docker run --name scilab"+str(nbSimStarted)+" --rm  -v $(pwd)/scilab-scripts:/scilab-scripts -v $(pwd)/Results/"+resultPath+":/Result scilab_v2 "+scilabScriptName+" "+str(nbPop)+" "+str(nbIter)+ " > outputs/output_docker_" + str(nbSimStarted) + " 2> outputs/output_docker_error_" + str(nbSimStarted)]
+	command = ["docker run --name scilab"+str(nbSimStarted)+" --rm  -v $(pwd)/scilab-scripts:/scilab-scripts -v $(pwd)/Results/"+resultPath+":/Result scilab "+scilabScriptName+" "+str(nbPop)+" "+str(nbIter)+" "+str(mutation)+" "+str(crossover)+ " > outputs/output_docker_" + str(nbSimStarted) + " 2> outputs/output_docker_error_" + str(nbSimStarted)]
+	#command = ["docker run --name scilab"+str(nbSimStarted)+" --rm  -v $(pwd)/scilab-scripts:/scilab-scripts -v $(pwd)/Results/"+resultPath+":/Result scilab_v2 "+scilabScriptName+" "+str(nbPop)+" "+str(nbIter)+ " > outputs/output_docker_" + str(nbSimStarted) + " 2> outputs/output_docker_error_" + str(nbSimStarted)]
 	Popen(command, shell = True)
 	nbSimStarted += 1
 	time.sleep(30) # wait 30 sec to make sure the container is really started
