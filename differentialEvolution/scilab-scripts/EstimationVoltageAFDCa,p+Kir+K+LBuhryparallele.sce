@@ -98,9 +98,7 @@ function [bM, valBest, costVec]=simulation(NP,itermax,F,CR)
 
             // ========= Tirage aléatoire de 3 entiers distincts r1, r2 et r3 et différents de j ========
             proba=exp(-5*(val-min(val))/(max(val)-min(val)));//donne un vecteur
-//            disp(proba)
             proba=proba/sum(proba);
-            disp(proba)
 
             r1=j; r2=j; r3=j;
             while (r1==r2 | r1==r3 | r2==r3 | r1==j | r2==j | r3==j)
