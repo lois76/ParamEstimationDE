@@ -102,11 +102,10 @@ function [bM, valBest, costVec]=simulation(NP,itermax,F,CR)
 
             r1=j; r2=j; r3=j;
             while (r1==r2 | r1==r3 | r2==r3 | r1==j | r2==j | r3==j)
-                r1=grand(1,'mul',1,proba(1:$-1))//vecteur de 0 sauf un 1 pour l'ind sélectionné
-                r2=grand(1,'mul',1,proba(1:$-1))
-                r3=grand(1,'mul',1,proba(1:$-1))
+                r1=find(1==grand(1,'mul',1,proba(1:$-1)))
+                r2=find(1==grand(1,'mul',1,proba(1:$-1)))
+                r3=find(1==grand(1,'mul',1,proba(1:$-1)))
             end
-            r1=find(1==r1); r2=find(1==r2); r3=find(1==r3);//récupère l'indice de l'ind=1
             // ======== Variation différentielle =======
             V=pop(:,r1) + F*(pop(:,r2)-pop(:,r3));
             
