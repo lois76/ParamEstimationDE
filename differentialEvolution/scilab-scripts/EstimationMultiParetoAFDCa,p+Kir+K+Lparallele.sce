@@ -105,18 +105,11 @@ function [val, popFinal]=simulation(NP,itermax,F,CR)
             // ======= Construction de la matrice U = variation différentielle + crossover =======
 
             // ========= Tirage aléatoire de 3 entiers distincts r1, r2 et r3 et différents de j ========
-            if max(val)==min(val) then
-                proba=ones(NP,1);
-            else
-                proba=exp(-5*(val-min(val))/(max(val)-min(val)));//donne un vecteur
-            end
-            proba=proba/sum(proba);
-
-            r1=j; r2=j; r3=j;
+            r1=j; r2=j; r3=j;//////////////////////////////////////
             while (r1==r2 | r1==r3 | r2==r3 | r1==j | r2==j | r3==j)
-                r1=find(1==grand(1,'mul',1,proba(1:$-1)))
-                r2=find(1==grand(1,'mul',1,proba(1:$-1)))
-                r3=find(1==grand(1,'mul',1,proba(1:$-1)))
+                r1=floor(1+NP*rand());
+                r2=floor(1+NP*rand());
+                r3=floor(1+NP*rand());
             end
             // ======== Variation différentielle =======
             V=pop(:,r1) + F*(pop(:,r2)-pop(:,r3));
