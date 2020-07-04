@@ -2,8 +2,7 @@
 ///////////////     Experimental data      ///////////////
 //////////////////////////////////////////////////////////
 
-//Voltage
-a = read("/home/loisse/Documents/FichierScilab/EstimationAFD/Fig1A_AFDCurrentClampTrace.txt",-1,12);
+a = read("/scilab-scripts/Fig 1A_AFD Current-Clamp Trace.txt",-1,12);
 A=a(2489:14988,2:$)*1000;
 t=linspace(0,50,12500);
 t0=0;
