@@ -2,7 +2,7 @@
 ///////////////     Récupération données      ///////////////
 /////////////////////////////////////////////////////////////
 
-a = read("/scilab-scripts/Fig 1A_AFD Current-Clamp Trace.txt",-1,12);
+a = read("/home/loisse/Documents/FichierScilab/EstimationAFD/Fig1A_AFDCurrentClampTrace.txt",-1,12);
 A=a(2489:14988,2:$)*1000;
 t=linspace(0,50,12500);
 t0=0;
@@ -33,6 +33,11 @@ function y=sigma(v)
     y=sqrt(s/length(v));
 endfunction
 
+dev=[]
+for i=1:11
+    dev=[dev sigma(A(7000:$,i))]
+end
+
 //Fonction coût 
 stim=[-15:5:35];
 t0=0;
@@ -44,7 +49,7 @@ function y=fct11(pa)
         x=ode(condini,t0,t,HH21); 
         V=x(1,:);
         for k=1:length(t)
-            c=c+((V(k)-A(k,i))/sigma(A(7000:$,i)))*((V(k)-A(k,i))/sigma(A(7000:$,i)));
+            c=c+((V(k)-A(k,i))/dev(i))*((V(k)-A(k,i))/dev(i));
         end
     end
     y=c/length(t);
@@ -205,3 +210,5 @@ function [bM, valBest]=simulation(NP,itermax,F,CR)
     
     disp(val);
 endfunction
+
+[bM, valBest]=simulation(10,3,0.5,0.9)
