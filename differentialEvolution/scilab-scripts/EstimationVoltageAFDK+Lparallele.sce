@@ -23,6 +23,16 @@ function [Hdot]=HH22(t,x,pa)
     Hdot(3)=(xinf(x(1),pa(6),pa(8))-x(3))/pa(10)
 endfunction
 
+//Fonction qui calcule l'écart type (standard deviation)
+function y=sigma(v)
+    s=0;
+    moy=mean(v);
+    for i=1:length(v)
+        s=s+(v(i)-moy)^2
+    end
+    y=sqrt(s/length(v));
+endfunction
+
 //Fonction coût 
 stim=[-15:5:35];
 t0=0;
@@ -34,7 +44,7 @@ function y=fct22(pa)
         x=ode(condini,t0,t,HH22); 
         V=x(1,:);
         for k=1:length(t)
-            c=c+(V(k)-A(k,i))*(V(k)-A(k,i))
+            c=c+((V(k)-A(k,i))/sigma(A(7000:$,i)))*((V(k)-A(k,i))/sigma(A(7000:$,i)));
         end
     end
     y=c/length(t);
@@ -69,7 +79,6 @@ function [bM, valBest]=simulation(NP,itermax,F,CR)
             pop(i,j)=Xmin(i)+(Xmax(i)-Xmin(i))*rand();
         end
     end
-    
     
     //////////////////////////////////////////////////////////////
     //// Évaluation du meilleur individu après initialisation ////
