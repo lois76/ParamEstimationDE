@@ -2,7 +2,7 @@
 ///////////////     Récupération données      ///////////////
 /////////////////////////////////////////////////////////////
 
-a = read("/home/loisse/Documents/FichierScilab/EstimationAFD/Fig1A_AFDCurrentClampTrace.txt",-1,12);
+a = read("/scilab-scripts/Fig 1A_AFD Current-Clamp Trace.txt",-1,12);
 A=a(2489:14988,2:$)*1000;
 t=linspace(0,50,12500);
 t0=0;
@@ -208,9 +208,6 @@ function [bM, valBest]=simulation(NP,itermax,F,CR)
 //    iterVec=1:1:itermax;
 //    plot(iterVec,costVec,2)
 endfunction
-
-[bM, valBest]=simulation(10,3,0.5,0.9)
-
 
 
 
