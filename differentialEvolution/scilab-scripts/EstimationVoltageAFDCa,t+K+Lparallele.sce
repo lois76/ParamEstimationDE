@@ -25,6 +25,21 @@ function [Hdot]=HH11(t,x,pa)
     Hdot(5)=(xinf(x(1),pa(10),pa(14))-x(5))/pa(18)
 endfunction
 
+//Fonction qui calcule l'écart type (standard deviation)
+function y=sigma(v)
+    s=0;
+    moy=mean(v);
+    for i=1:length(v)
+        s=s+(v(i)-moy)^2
+    end
+    y=sqrt(s/length(v));
+endfunction
+
+dev=[]
+for i=1:11
+    dev=[dev sigma(A(7000:$,i))]
+end
+
 //Fonction coût 
 function y=fct11(pa)
     c=0;
@@ -34,7 +49,7 @@ function y=fct11(pa)
         x=ode(condini,t0,t,HH11); 
         V=x(1,:);
         for k=1:length(t)
-            c=c+(V(k)-A(k,i))*(V(k)-A(k,i))
+            c=c+((V(k)-A(k,i))/dev(i))*((V(k)-A(k,i))/dev(i));;
         end
     end
     y=c/length(t);
