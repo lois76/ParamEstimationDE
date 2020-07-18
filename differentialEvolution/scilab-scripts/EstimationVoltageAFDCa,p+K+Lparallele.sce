@@ -25,6 +25,20 @@ function [Hdot]=HH21(t,x,pa)
     Hdot(4)=(xinf(x(1),pa(9),pa(12))-x(4))/pa(15)
 endfunction
 
+function y=sigma(v)
+    s=0;
+    moy=mean(v);
+    for i=1:length(v)
+        s=s+(v(i)-moy)^2
+    end
+    y=sqrt(s/length(v));
+endfunction
+
+dev=[]
+for i=1:11
+    dev=[dev sigma(A(7000:$,i))]
+end
+
 //Fonction coût 
 
 function y=fct11(pa)
@@ -35,7 +49,7 @@ function y=fct11(pa)
         x=ode(condini,t0,t,HH21); 
         V=x(1,:);
         for k=1:length(t)
-            c=c+(V(k)-A(k,i))*(V(k)-A(k,i))
+            c=c+((V(k)-A(k,i))/dev(i))*((V(k)-A(k,i))/dev(i));
         end
     end
     y=c/length(t);
