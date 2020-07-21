@@ -25,6 +25,24 @@ function [Hdot]=HH11(t,x,pa)
     Hdot(5)=(xinf(x(1),pa(12),pa(17))-x(5))/pa(21)
 endfunction
 
+//Fonction qui calcule l'écart type (standard deviation)
+function y=sigma(v)
+    s=0;
+    moy=mean(v);
+    for i=1:length(v)
+        s=s+(v(i)-moy)^2
+    end
+    y=sqrt(s/length(v));
+endfunction
+
+// Définition de l'écart type sur V pour chaque I
+dev=[]
+for i=1:11
+    dev=[dev sigma(A(7000:$,i))]
+end
+
+%ODEOPTIONS=[1,0,0,%inf,0,2,20000,12,5,0,-1,-1];
+
 //Fonction coût 
 function y=fct11(pa)
     c=0;
@@ -34,7 +52,7 @@ function y=fct11(pa)
         x=ode(condini,t0,t,HH11); 
         V=x(1,:);
         for k=1:length(t)
-            c=c+(V(k)-A(k,i))*(V(k)-A(k,i))
+            c=c+((V(k)-A(k,i))/dev(i))*((V(k)-A(k,i))/dev(i));
         end
     end
     y=c/length(t);
@@ -106,83 +124,11 @@ function [bM, valBest]=simulation(NP,itermax,F,CR)
             // ======== Variation différentielle =======
             V=pop(:,r1) + F*(pop(:,r2)-pop(:,r3));
             
-            if V(1)<=Xmin(1) then V(1)=Xmin(1);
-            elseif V(1)>Xmax(1) then V(1)=Xmax(1);
-            end
-            if V(2)<=Xmin(2) then V(2)=Xmin(2);
-            elseif V(2)>Xmax(2) then V(2)=Xmax(2);
-            end
-            if V(3)<=Xmin(3) then V(3)=Xmin(3);
-            elseif V(3)>Xmax(3) then V(3)=Xmax(3);
-            end
-            if V(4)<=Xmin(4) then V(4)=Xmin(4);
-            elseif V(4)>Xmax(4) then V(4)=Xmax(4);
-            end
-            if V(5)<=Xmin(5) then V(5)=Xmin(5);
-            elseif V(5)>Xmax(5) then V(5)=Xmax(5);
-            end
-            if V(6)<=Xmin(6) then V(6)=Xmin(6);
-            elseif V(6)>Xmax(6) then V(6)=Xmax(6);
-            end
-            if V(7)<=Xmin(7) then V(7)=Xmin(7);
-            elseif V(7)>Xmax(7) then V(7)=Xmax(7);
-            end
-            if V(8)<=Xmin(8) then V(8)=Xmin(8);
-            elseif V(8)>Xmax(8) then V(8)=Xmax(8);
-            end
-            if V(9)<=Xmin(9) then V(9)=Xmin(9);
-            elseif V(9)>Xmax(9) then V(9)=Xmax(9);
-            end
-            if V(10)<=Xmin(10) then V(10)=Xmin(10);
-            elseif V(10)>Xmax(10) then V(10)=Xmax(10);
-            end
-            if V(11)<=Xmin(11) then V(11)=Xmin(11);
-            elseif V(11)>Xmax(11) then V(11)=Xmax(11);
-            end
-            if V(12)<=Xmin(12) then V(12)=Xmin(12);
-            elseif V(12)>Xmax(12) then V(12)=Xmax(12);
-            end
-            if V(13)<=Xmin(13) then V(13)=Xmin(13);
-            elseif V(13)>Xmax(13) then V(13)=Xmax(13);
-            end
-            if V(14)<=Xmin(14) then V(14)=Xmin(14);
-            elseif V(14)>Xmax(14) then V(14)=Xmax(14);
-            end
-            if V(15)<=Xmin(15) then V(15)=Xmin(15);
-            elseif V(15)>Xmax(15) then V(15)=Xmax(15);
-            end
-            if V(16)<=Xmin(16) then V(16)=Xmin(16);
-            elseif V(16)>Xmax(16) then V(16)=Xmax(16);
-            end
-            if V(17)<=Xmin(17) then V(17)=Xmin(17);
-            elseif V(17)>Xmax(17) then V(17)=Xmax(17);
-            end
-            if V(18)<=Xmin(18) then V(18)=Xmin(18);
-            elseif V(18)>Xmax(18) then V(18)=Xmax(18);
-            end
-            if V(19)<=Xmin(19) then V(19)=Xmin(19);
-            elseif V(19)>Xmax(19) then V(19)=Xmax(19);
-            end
-            if V(20)<=Xmin(20) then V(20)=Xmin(20);
-            elseif V(20)>Xmax(20) then V(20)=Xmax(20);
-            end
-            if V(21)<=Xmin(21) then V(21)=Xmin(21);
-            elseif V(21)>Xmax(21) then V(21)=Xmax(21);
-            end
-            if V(22)<=Xmin(22) then V(22)=Xmin(22);
-            elseif V(22)>Xmax(22) then V(22)=Xmax(22);
-            end
-            if V(23)<=Xmin(23) then V(23)=Xmin(23);
-            elseif V(23)>Xmax(23) then V(23)=Xmax(23);
-            end
-            if V(24)<=Xmin(24) then V(24)=Xmin(24);
-            elseif V(24)>Xmax(24) then V(24)=Xmax(24);
-            end
-            if V(25)<=Xmin(25) then V(25)=Xmin(25);
-            elseif V(25)>Xmax(25) then V(25)=Xmax(25);
-            end
-            if V(26)<=Xmin(26) then V(26)=Xmin(26);
-            elseif V(26)>Xmax(26) then V(26)=Xmax(26);
+            // ======== Contraintes ========
+            for i=1:D
+                if V(i)<=Xmin(i) then V(i)=Xmin(i);
+                elseif V(i)>Xmax(i) then V(i)=Xmax(i);
+                end
             end
             // ======== Crossover ========
             for i=1:D

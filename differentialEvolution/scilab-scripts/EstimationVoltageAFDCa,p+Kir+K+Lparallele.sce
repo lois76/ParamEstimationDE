@@ -35,7 +35,12 @@ function y=sigma(v)
 endfunction
 
 // Définition de l'écart type sur V pour chaque I
+dev=[]
+for i=1:11
+    dev=[dev sigma(A(7000:$,i))]
+end
 
+%ODEOPTIONS=[1,0,0,%inf,0,2,20000,12,5,0,-1,-1];
 
 //Fonction coût 
 function y=fct11(pa)
@@ -46,16 +51,15 @@ function y=fct11(pa)
         x=ode(condini,t0,t,HH11); 
         V=x(1,:);
         for k=1:length(t)
-            c=c+((V(k)-A(k,i))/sigma(A(7000:$,i)))*((V(k)-A(k,i))/sigma(A(7000:$,i)));
+            c=c+((V(k)-A(k,i))/dev(i))*((V(k)-A(k,i))/dev(i));
         end
     end
     y=c/length(t);
 endfunction
 
-
-////////////////////////////////////////////////////////
-/////////    Estimation de la capacitance C    /////////
-////////////////////////////////////////////////////////
+///////////////////////////////////////////////////
+/////////    Estimation des paramètres    /////////
+///////////////////////////////////////////////////
 
 function [bM, valBest, costVec]=simulation(NP,itermax,F,CR)
     
@@ -166,7 +170,4 @@ function [bM, valBest, costVec]=simulation(NP,itermax,F,CR)
     
     disp(val);
 endfunction
-
-
-
 
