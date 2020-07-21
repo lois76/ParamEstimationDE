@@ -262,6 +262,11 @@ function [popInit, valInit, pop2500, val2500, pop5000, val5000, popFinal, valFin
             pop5000=pop;
             val5000=val;
         end
+        
+        if (iter==3 | iter==300 | iter==600 | iter==900 | iter==1200 | iter==1500 | iter==2000 | iter==3000 | iter==3500 | iter==4000 | iter==4500 | iter==5500) then
+            disp(pop);
+            disp(val);
+        end
 
         disp(iter);
         iter = iter + 1;
