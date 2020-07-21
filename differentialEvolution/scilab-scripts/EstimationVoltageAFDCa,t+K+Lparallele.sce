@@ -49,7 +49,7 @@ function y=fct11(pa)
         x=ode(condini,t0,t,HH11); 
         V=x(1,:);
         for k=1:length(t)
-            c=c+((V(k)-A(k,i))/dev(i))*((V(k)-A(k,i))/dev(i));;
+            c=c+((V(k)-A(k,i))/dev(i))*((V(k)-A(k,i))/dev(i));
         end
     end
     y=c/length(t);
