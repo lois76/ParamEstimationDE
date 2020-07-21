@@ -2,15 +2,16 @@
 ///////////////     Experimental data      ///////////////
 //////////////////////////////////////////////////////////
 
-a = read("/scilab-scripts/Fig 1A_AFD Current-Clamp Trace.txt",-1,12);
+//Membrane potential
+a = read("/scilab-scripts/Fig1ARIMCurrentClampTrace.txt",-1,12);
 A=a(2489:14988,2:$)*1000;
 t=linspace(0,50,12500);
 t0=0;
 stim=[-15:5:35];
 
 //Steady-state current
-vecV=[-110:10:50]
-Inf=[-68.6 -49.5 -18.2 -5.06 2.19 3.37 2.52 2.68 5.97 14.6 33.4 60.2 85 114 152 208 254]
+vecV=[-100:10:50]
+Inf=[-12.2 -9.13 -6.57 -4.91 -3.57 -2.13 -0.807 0.229 1.46 4.27 7.46 11.8 17.2 21.6 27.1 32.5]
 
 //////////////////////////////////////////////////
 ///////////////    Cost function    //////////////
@@ -35,7 +36,7 @@ endfunction
 //Cost function voltage
 function y=fct11(pa)
     c=0;
-    condini = [-78; pa(19); pa(20); pa(21)]
+    condini = [-38; pa(19); pa(20); pa(21)]
     for i=1:11
         I=stim(i);
         x=ode(condini,t0,t,HH); 
@@ -55,6 +56,7 @@ function y=W(pa)
     end
     y=e/length(vecV) 
 endfunction
+
 
 ///////////////////////////////////////////////////////////////
 /////////    Crowding Sorting and Domination Front    /////////

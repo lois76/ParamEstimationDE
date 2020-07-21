@@ -2,15 +2,15 @@
 ///////////////     Experimental data      ///////////////
 //////////////////////////////////////////////////////////
 
-a = read("/scilab-scripts/Fig 1A_AFD Current-Clamp Trace.txt",-1,12);
+a = read("/scilab-scripts/Fig 1A_AIY Current-Clamp Trace.txt",-1,12);
 A=a(2489:14988,2:$)*1000;
 t=linspace(0,50,12500);
 t0=0;
 stim=[-15:5:35];
 
 //Steady-state current
-vecV=[-110:10:50]
-Inf=[-68.6 -49.5 -18.2 -5.06 2.19 3.37 2.52 2.68 5.97 14.6 33.4 60.2 85 114 152 208 254]
+vecV=[-120:10:50];
+Inf=[-13.1 -10.4 -7.92 -5.89 -4.11 -2.69 -1.02 0.0211 1.17 3.1 7.32 14.2 22.4 31.5 43.2 54.5 69.5 82.4];
 
 //////////////////////////////////////////////////
 ///////////////    Cost function    //////////////
@@ -21,12 +21,12 @@ function y=xinf(VH,V12,k)
     y=1 ./(1+exp((V12-VH) ./k));
 endfunction
 
-//Ca,p+Kir+K,t+L-model
-function [Hdot]=HH(t,x,pa)
+//Ca,t+Kir+K,p+L-model
+function [Hdot]=HH11(t,x,pa)
     Hdot=zeros(4,1);
-    Hdot(1)=(1/pa(22))*(-pa(1)*x(2)*(x(1)-pa(5)) - pa(2)*xinf(x(1),pa(9),pa(13))*(x(1)-pa(6)) - pa(3)*x(3)*x(4)*(x(1)-pa(6)) - pa(4)*(x(1)-pa(7)) + I)
+    Hdot(1)=(1/pa(22))*(-pa(1)*x(2)*x(3)*(x(1)-pa(5)) - pa(2)*xinf(x(1),pa(10),pa(14))*(x(1)-pa(6)) - pa(3)*x(4)*(x(1)-pa(6)) - pa(4)*(x(1)-pa(7)) + I)
     Hdot(2)=(xinf(x(1),pa(8),pa(12))-x(2))/pa(16)
-    Hdot(3)=(xinf(x(1),pa(10),pa(14))-x(3))/pa(17)
+    Hdot(3)=(xinf(x(1),pa(9),pa(13))-x(3))/pa(17)
     Hdot(4)=(xinf(x(1),pa(11),pa(15))-x(4))/pa(18)
 endfunction
 
@@ -35,10 +35,10 @@ endfunction
 //Cost function voltage
 function y=fct11(pa)
     c=0;
-    condini = [-78; pa(19); pa(20); pa(21)]
+    condini = [-53; pa(19); pa(20); pa(21)]
     for i=1:11
         I=stim(i);
-        x=ode(condini,t0,t,HH); 
+        x=ode(condini,t0,t,HH11); 
         V=x(1,:);
         for k=1:length(t)
             c=c+(V(k)-A(k,i))*(V(k)-A(k,i))
@@ -51,7 +51,7 @@ endfunction
 function y=W(pa)
     e=0;
     for i=1:length(vecV)
-        e=e+(Inf(i)-(pa(1).*xinf(vecV(i),pa(8),pa(12)).*(vecV(i)-pa(5)) + pa(2).*xinf(vecV(i),pa(9),pa(13)).*(vecV(i)-pa(6)) + pa(3).*xinf(vecV(i),pa(10),pa(14)).*xinf(vecV(i),pa(11),pa(15)).*(vecV(i)-pa(6)) + pa(4).*(vecV(i)-pa(7))))^2
+        e=e+(Inf(i)-(pa(1)*xinf(vecV(i),pa(8),pa(12))*xinf(vecV(i),pa(9),pa(13))*(vecV(i)-pa(5)) + pa(2)*xinf(vecV(i),pa(10),pa(14))*(vecV(i)-pa(6)) + pa(3)*xinf(vecV(i),pa(11),pa(15))*(vecV(i)-pa(6)) + pa(4)*(vecV(i)-pa(7))))^2
     end
     y=e/length(vecV) 
 endfunction
