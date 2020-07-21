@@ -2,7 +2,8 @@
 ///////////////     Experimental data      ///////////////
 //////////////////////////////////////////////////////////
 
-a = read("/scilab-scripts/Fig 1A_AFD Current-Clamp Trace.txt",-1,12);
+a = read("/home/naudin/Documents/Fig1A_AFDCurrentClampTrace.txt",-1,12);
+//a = read("/scilab-scripts/Fig 1A_AFD Current-Clamp Trace.txt",-1,12);
 A=a(2489:14988,2:$)*1000;
 t=linspace(0,50,12500);
 t0=0;
@@ -105,7 +106,7 @@ function [val, popFinal]=simulation(NP,itermax,F,CR)
             // ======= Construction de la matrice U = variation différentielle + crossover =======
 
             // ========= Tirage aléatoire de 3 entiers distincts r1, r2 et r3 et différents de j ========
-            r1=j; r2=j; r3=j;//////////////////////////////////////
+            r1=j; r2=j; r3=j;
             while (r1==r2 | r1==r3 | r2==r3 | r1==j | r2==j | r3==j)
                 r1=floor(1+NP*rand());
                 r2=floor(1+NP*rand());
@@ -160,3 +161,5 @@ function [val, popFinal]=simulation(NP,itermax,F,CR)
     popFinal=pop;
     disp(val);
 endfunction
+
+[val, popFinal]=simulation(8,5,0.5,0.3)
