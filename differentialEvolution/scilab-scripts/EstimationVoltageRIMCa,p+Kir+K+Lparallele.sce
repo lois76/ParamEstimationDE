@@ -2,7 +2,7 @@
 ///////////////     Récupération données      ///////////////
 /////////////////////////////////////////////////////////////
 
-a = read("/scilab-scripts/Fig1ARIMCurrentClampTrace.txt",-1,12);
+a = read("/home/loisse/Documents/FichierScilab/EstimationRIM/Fig1ARIMCurrentClampTrace.txt",-1,12);
 A=a(2489:14988,2:$)*1000;
 t=linspace(0,50,12500);
 t0=0;
@@ -212,6 +212,6 @@ function [bM, valBest]=simulation(NP,itermax,F,CR)
     
 endfunction
 
-
+[bM, valBest]=simulation(30,3,0.5,0.3)
 
 

@@ -31,7 +31,7 @@ function y=sigma(v)
     for i=1:length(v)
         s=s+(v(i)-moy)^2
     end
-    y=sqrt(s/length(v));
+    y=sqrt(s/(length(v)-1));
 endfunction
 
 dev=[]
