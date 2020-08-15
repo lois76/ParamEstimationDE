@@ -170,10 +170,10 @@ function [popInit, valInit, pop2500, val2500, pop5000, val5000, popFinal, valFin
             pop(i,j)=Xmin(i)+(Xmax(i)-Xmin(i))*rand();
         end
     end
+    
     // Save popInit
     popInit=pop;
     
-//    //pause;
     ///////////////////////////////////////
     //// Initial population evaluation ////
     ///////////////////////////////////////
@@ -187,8 +187,8 @@ function [popInit, valInit, pop2500, val2500, pop5000, val5000, popFinal, valFin
     
     // Save valInit
     valInit=val;
-
-//    //pause;
+    disp(valInit);
+    
     ////////////////////////
     //// Étape suivante ////
     ////////////////////////

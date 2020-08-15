@@ -2,9 +2,9 @@
 ///////////////     Experimental data      ///////////////
 //////////////////////////////////////////////////////////
 
-
-//a = read("/home/naudin/Documents/FichierScilab/Fourre tout/Fig1A_RIMCurrentClampTrace.txt",-1,12);
+//Voltage
 a = read("/scilab-scripts/Fig1ARIMCurrentClampTrace.txt",-1,12);
+//a = read("/home/naudin/Documents/FichierScilab/Fourre tout/Fig1A_RIMCurrentClampTrace.txt",-1,12);
 A=a(2489:14988,2:$)*1000;
 t=linspace(0,50,12500);
 t0=0;
@@ -15,11 +15,14 @@ vecV=[-100:10:50]
 Inf=[-12.2 -9.13 -6.57 -4.91 -3.57 -2.13 -0.807 0.229 1.46 4.27 7.46 11.8 17.2 21.6 27.1 32.5]
 InfSD=[2.39 1.69 1.21 0.784 0.527 0.388 0.392 0.646 0.926 2.01 2.99 4.02 5.9 6.06 6.93 7.81]
 
+//Peak current
+vecVpk=[-100:10:50]
+pk=[-13.6 -9.51 -6.49 -4.18 -2.07 -0.478 1.77 5.39 15.5 26.6 43.6 61.1 83 102 127 145]
+pkSD=[2.3 1.32 0.457 0.132 0.184 0.225 0.232 1.61 4.53 3.82 4.71 4.69 6.15 7.03 9.07 5.9]
 
-
-//////////////////////////////////////////////////////////
-///////////////    Voltage cost function    //////////////
-//////////////////////////////////////////////////////////
+//////////////////////////////////////////////////
+///////////////    Cost function    //////////////
+//////////////////////////////////////////////////
 
 //Boltzmann function
 function y=xinf(VH,V12,k)
@@ -35,7 +38,7 @@ function [Hdot]=HH(t,x,pa)
     Hdot(4)=(xinf(x(1),pa(11),pa(15))-x(4))/pa(18)
 endfunction
 
-//Fonction qui calcule l'écart type (standard deviation)
+//Function that computes the standard deviation
 function y=sigma(v)
     s=0;
     moy=mean(v);
@@ -45,7 +48,7 @@ function y=sigma(v)
     y=sqrt(s/(length(v)-1));
 endfunction
 
-// Définition de l'écart type sur V pour chaque I
+//Noise level (standard deviation) for each I
 dev=[];
 dev1=sigma(A(1562:$,1));
 dev2=sigma(A(1250:$,2));
@@ -53,8 +56,6 @@ dev=[dev1 dev2];
 for i=3:11
     dev=[dev sigma(A(5000:$,i))];
 end
-
-disp(dev)
 
 %ODEOPTIONS=[1,0,0,%inf,0,2,20000,12,5,0,-1,-1];
 
@@ -80,7 +81,7 @@ endfunction
 ///////////////    Steady-state current cost function    //////////////
 ///////////////////////////////////////////////////////////////////////
 
-function y=W(pa)
+function y=WSS(pa)
     e=0;
     for i=1:length(vecV)
         tmp=0;
@@ -89,6 +90,34 @@ function y=W(pa)
         e=e+tmp;
     end
     y=e/length(vecV) 
+endfunction
+
+///////////////////////////////////////////////////////////////
+///////////////    Peak current cost function    //////////////
+///////////////////////////////////////////////////////////////
+
+//Solution x(t) where x=m,h
+function y=x(VH,V12,k,tx,x0,t)
+    y=xinf(VH,V12,k)+(x0-xinf(VH,V12,k))*exp(-t/tx)
+endfunction
+
+//Current equation
+function y=Iest(VH,pa,t)
+    y = pa(1).*x(VH,pa(8),pa(12),pa(16),pa(19),t).*(VH-pa(5)) + pa(2)*xinf(VH,pa(9),pa(13))*(VH-pa(6)) + pa(3).*x(VH,pa(10),pa(14),pa(17),pa(20),t).*x(VH,pa(11),pa(15),pa(18),pa(21),t).*(VH-pa(6)) + pa(4).*(VH-pa(7))
+endfunction
+
+//Cost function peak current
+function y=Wpk(pa)
+    e=0;
+    for i=1:length(vecVpk)
+        Ipeak=[];
+        tmp=0;
+        Ipeak=max(Iest(vecVpk(i),pa,t(1:251)));
+        tmp=(pk(i)-Ipeak)^2;
+        tmp=tmp/pkSD(i);
+        e=e+tmp;
+    end
+    y=e/length(vecVpk) 
 endfunction
 
 ///////////////////////////////////////////////////////////////
@@ -104,11 +133,11 @@ function [Front]=NDS(A)
         for j=1:size(A,'r')
             if i~=j then 
                 // nombre de solutions qui domine la solution i
-                if A(i,1)>A(j,1) & A(i,2)>A(j,2) then
+                if A(i,1)>A(j,1) & A(i,2)>A(j,2) & A(i,3)>A(j,3) then
                     dominationCount(i) = dominationCount(i) + 1;
                 end
                 // Ensemble de solution que la solution i domine
-                if A(i,1)<A(j,1) & A(i,2)<A(j,2) then
+                if A(i,1)<A(j,1) & A(i,2)<A(j,2) & A(i,3)<A(j,3) then
                     Stmp=[Stmp j]
                 end
             end
@@ -117,7 +146,7 @@ function [Front]=NDS(A)
     end
     Front(1)=find(0==dominationCount); // indice des solutions faisant partie du best front
     
-    // Il faudra "set a front counter m=1 pour itérer sur tous les fronts pour des cas plus complexes et un while.. for i=
+    // Filfilling to other fronts
     m=1
     while Front(m)~=[] // tant que le front m est non vide alors...
         Q=[];
@@ -134,22 +163,22 @@ function [Front]=NDS(A)
     end
 endfunction
 
-
 function [d]=crowdingSorting(A)
-    l=size(A, 1) // l=nombre d'individus dans A (qui est l'ensemble des fonction coûts du dernier front)
+    l=size(A, 1); // l=number of individual in A (=set of objective functions of the last acceptable front)
+    M=size(A,'c'); // M=number of objective function
     d = zeros(l, 1);
-    for m=1:2 // pour chaque fonction coûts m. Ici m=2 car seulement 2 fonctions coûts
+    for m=1:M
         [tmp, Index] = gsort(A(:, m)); // Step C2 : sort the set in ascendant order of magnitude
-//        ////pause;
+//        pause;
         d(Index(1)) = %inf;
         d(Index(l)) = %inf;
         fmax = max(A(:, m));
         fmin = min(A(:, m));
-//        ////pause;
+//        pause;
         for j=2:l-1
             d(Index(j)) = d(Index(j)) + abs(tmp(j+1) - tmp(j-1)) / (fmax - fmin);
         end
-//        //pause;
+//        pause;
     end
 endfunction
 
@@ -166,8 +195,8 @@ function [popInit, valInit, pop2500, val2500, pop5000, val5000, popFinal, valFin
     //// Vecteurs de contraintes borne minimum/maximum ////
     ///////////////////////////////////////////////////////
 
-    Xmin=[0.1 0.1 0.1 0.1 20  -100 -90 -90 -90 -90 -90 1  -30 1  -30 0.0001 0.0001 0.0001 0.001 0.001 0.001 0.001];
-    Xmax=[50  50  50  50  150 -2   30  -2  -2  -2  -2  30 -1  30 -1  15     15     15     0.999 0.999 0.999 10];
+    Xmin=[0.0001 0.0001 0.0001 0.0001 20  -100 -90 -90 -90 -90 -90 1  -30 1  -30 0.0001 0.0001 0.0001 0.001 0.001 0.001 0.001];
+    Xmax=[50     50     50     50     150 -2   30  -2  -2  -2  -2  30 -1  30 -1  15     15     15     0.999 0.999 0.999 10];
     
     ////////////////////////////////////
     ////  Population initialization ////
@@ -178,27 +207,26 @@ function [popInit, valInit, pop2500, val2500, pop5000, val5000, popFinal, valFin
             pop(i,j)=Xmin(i)+(Xmax(i)-Xmin(i))*rand();
         end
     end
+    
     // Save popInit
     popInit=pop;
     
-//    //pause;
     ///////////////////////////////////////
     //// Initial population evaluation ////
     ///////////////////////////////////////
     
-    val=zeros(NP,2); // tableau avec le coût de chacun des individus. 1ère colonne = cout voltage. 2ème colonne = cout SS.
+    val=zeros(NP,3); // Array with cost function of each individual. 1st column = voltage cost; 2nd column = steady-state cost; 3st column = peak cost
     
     for j=1:NP
-        val(j,1)=fct11(pop(:,j))
-        val(j,2)=W(pop(:,j))
+        val(j,1)=fct11(pop(:,j));
+        val(j,2)=WSS(pop(:,j));
+        val(j,3)=Wpk(pop(:,j));
     end
-    
-    disp(val)
     
     // Save valInit
     valInit=val;
-
-//    //pause;
+    disp(valInit);
+    
     ////////////////////////
     //// Étape suivante ////
     ////////////////////////
@@ -207,6 +235,7 @@ function [popInit, valInit, pop2500, val2500, pop5000, val5000, popFinal, valFin
     U=zeros(D,NP); // Vecteur intermédiaire perturbé (mutation + crossover)
     tempvalVol=0;
     tempvalSS=0;
+    tempvalpk=0;
     while iter<itermax
         for j=1:NP
             // ======= Construction de la matrice U = variation différentielle + crossover =======
@@ -242,15 +271,17 @@ function [popInit, valInit, pop2500, val2500, pop5000, val5000, popFinal, valFin
         
         for j=1:NP
             tempvalVol = fct11(U(:,j));
-            tempvalSS = W(U(:,j));
-            if tempvalVol<tempval(j,1) & tempvalSS<=tempval(j,2) then
+            tempvalSS = WSS(U(:,j));
+            tempvalpk = Wpk(U(:,j));
+            if tempvalVol<tempval(j,1) & tempvalSS<tempval(j,2) & tempvalpk<tempval(j,3) then
                 tempPop(:,j) = U(:,j);
                 tempval(j,1) = tempvalVol;
                 tempval(j,2) = tempvalSS;
+                tempval(j,3) = tempvalpk;
             end
-            if (tempvalVol>tempval(j,1) & tempvalSS<=tempval(j,2)) | (tempvalVol<tempval(j,1) & tempvalSS>=tempval(j,2)) then
+            if (tempvalVol<tempval(j,1) & tempvalSS<tempval(j,2) & tempvalpk>tempval(j,3)) | (tempvalVol<tempval(j,1) & tempvalSS>tempval(j,2) & tempvalpk<tempval(j,3)) | (tempvalVol<tempval(j,1) & tempvalSS>tempval(j,2) & tempvalpk>tempval(j,3)) | (tempvalVol>tempval(j,1) & tempvalSS>tempval(j,2) & tempvalpk<tempval(j,3)) | (tempvalVol>tempval(j,1) & tempvalSS<tempval(j,2) & tempvalpk>tempval(j,3))  then
                 tempPop=[tempPop U(:,j)]
-                tempval=[tempval; [tempvalVol tempvalSS]]
+                tempval=[tempval; [tempvalVol tempvalSS tempvalpk]]
             end
         end
         
@@ -300,11 +331,10 @@ function [popInit, valInit, pop2500, val2500, pop5000, val5000, popFinal, valFin
             val5000=val;
         end
 
-        if (iter==3 | iter==300 | iter==600 | iter==900 | iter==1200 | iter==1500 | iter==2000 | iter==3000 | iter==3500 | iter==4000 | iter==4500 | iter==5500) then
-            disp(pop);
-            disp(val);
-        end
-
+//        if (iter==3 | iter==300 | iter==600 | iter==900 | iter==1200 | iter==1500 | iter==2000 | iter==3000 | iter==3500 | iter==4000 | iter==4500 | iter==5500) then
+//            disp(pop);
+//            disp(val);
+//        end
         disp(iter);
         iter = iter + 1;
     end  //fin de la boucle while
@@ -314,4 +344,3 @@ function [popInit, valInit, pop2500, val2500, pop5000, val5000, popFinal, valFin
     disp(pop);
     disp(val);
 endfunction
-
