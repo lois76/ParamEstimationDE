@@ -25,6 +25,9 @@ function [Hdot]=HH11(t,x,pa)
 endfunction
 
 //Fonction qui calcule l'écart type (standard deviation)
+v=[80 80 80 70 70]
+w=[20 20 20 0 0]
+
 function y=sigma(v)
     s=0;
     moy=mean(v);
