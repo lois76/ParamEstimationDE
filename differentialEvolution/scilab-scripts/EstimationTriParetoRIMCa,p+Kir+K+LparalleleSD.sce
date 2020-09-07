@@ -3,8 +3,8 @@
 //////////////////////////////////////////////////////////
 
 //Voltage
-//a = read("/scilab-scripts/Fig1ARIMCurrentClampTrace.txt",-1,12);
-a = read("/home/naudin/Documents/FichierScilab/Fourre tout/Fig1A_RIMCurrentClampTrace.txt",-1,12);
+a = read("/scilab-scripts/Fig1ARIMCurrentClampTrace.txt",-1,12);
+//a = read("/home/naudin/Documents/FichierScilab/Fourre tout/Fig1A_RIMCurrentClampTrace.txt",-1,12);
 A=a(2489:14988,2:$)*1000;
 t=linspace(0,50,12500);
 t0=0;
@@ -245,4 +245,3 @@ function [popInit, valInit, pop2500, val2500, pop5000, val5000, popFinal, valFin
     disp(val);
 endfunction
 
-[popInit, valInit, pop2500, val2500, pop5000, val5000, popFinal, valFinal]=simulation(40,100,0.5,0.9)
