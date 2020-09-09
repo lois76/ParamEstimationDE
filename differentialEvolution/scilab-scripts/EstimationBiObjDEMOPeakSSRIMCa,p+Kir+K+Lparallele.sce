@@ -142,7 +142,7 @@ endfunction
 /////////    Estimation des paramètres    /////////
 ///////////////////////////////////////////////////
 
-function [popInit, valInit, pop8000, val8000, pop15000, val15000, pop19000, val19000, popFinal, valFinal]=simulation(NP,itermax,F,CR)
+function [popInit, valInit, pop2500, val2500, pop5000, val5000, popFinal, valFinal]=simulation(NP,itermax,F,CR)
     
     D=22; 
     pop=zeros(D,NP);
@@ -163,10 +163,10 @@ function [popInit, valInit, pop8000, val8000, pop15000, val15000, pop19000, val1
             pop(i,j)=Xmin(i)+(Xmax(i)-Xmin(i))*rand();
         end
     end
+    
     // Save popInit
     popInit=pop;
     
-//    //pause;
     ///////////////////////////////////////
     //// Initial population evaluation ////
     ///////////////////////////////////////
@@ -273,26 +273,15 @@ function [popInit, valInit, pop8000, val8000, pop15000, val15000, pop19000, val1
         if iter==8000 then
             disp(pop);
             disp(val);
-            pop8000=pop;
-            val8000=val;
+            pop2500=pop;
+            val2500=val;
         end
-        if iter==15000 then
+        if iter==17000 then
             disp(pop);
             disp(val);
-            pop15000=pop;
-            val15000=val;
+            pop5000=pop;
+            val5000=val;
         end
-        if iter==19000 then
-            disp(pop);
-            disp(val);
-            pop19000=pop;
-            val19000=val;
-        end
-
-//        if (iter==3 | iter==800 | iter==600 | iter==900 | iter==1200 | iter==1500 | iter==2000 | iter==3000 | iter==3500 | iter==4000 | iter==4500 | iter==5500) then
-//            disp(pop);
-//            disp(val);
-//        end
 
         disp(iter);
         iter = iter + 1;
@@ -303,7 +292,5 @@ function [popInit, valInit, pop8000, val8000, pop15000, val15000, pop19000, val1
     disp(pop);
     disp(val);
 endfunction
-
-[popInit, valInit, pop8000, val8000, pop15000, val15000, pop19000, val19000, popFinal, valFinal]=simulation(200,2000,0.5,0.3)
 
 
