@@ -61,7 +61,7 @@ function y=Iest(VH,pa,t)
 endfunction
 
 //Cost function peak current
-function y=Wpk(pa)
+function y=Wpeak(pa)
     e=0;
     for i=1:length(vecVpk)
         Ipeak=[];
