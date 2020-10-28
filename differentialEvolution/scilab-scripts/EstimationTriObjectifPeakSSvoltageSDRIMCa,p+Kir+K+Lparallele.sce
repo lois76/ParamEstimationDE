@@ -318,20 +318,20 @@ function [popInit, valInit, pop2500, val2500, pop5000, val5000, popFinal, valFin
             n=n+1;
         end
         
-        if iter==2500 then
+        if iter==700 then
             disp(pop);
             disp(val);
             pop2500=pop;
             val2500=val;
         end
-        if iter==5000 then
+        if iter==1500 then
             disp(pop);
             disp(val);
             pop5000=pop;
             val5000=val;
         end
 
-        if (iter==3 | iter==300 | iter==600 | iter==900 | iter==1200 | iter==1500 | iter==2000 | iter==3000 | iter==3500 | iter==4000 | iter==4500 | iter==5500) then
+        if (iter==3 | iter==200 | iter==400 | iter==1000 | iter==1200 | iter==1800) then
             disp(pop);
             disp(val);
         end
