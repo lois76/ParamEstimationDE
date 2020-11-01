@@ -4,6 +4,7 @@
 
 a = read("/scilab-scripts/AIA5pAstepCC.txt",-1,12);
 //a = read("/home/naudin/Documents/article-2/AIA for Naudin/AIA 5pA step Current Clamp_150219KyEx1295AIA_3_CC-IV.txt",-1,12);
+A=a(2489:14988,2:$)*1000;
 t=linspace(0,50,12500);
 t0=0;
 stim=[-15:5:35];
@@ -16,21 +17,23 @@ function y=xinf(VH,V12,k)
     y=1 ./(1+exp((V12-VH) ./k));
 endfunction
 
-function [Hdot]=HH21(t,x,pa)
-    Hdot=zeros(4,1);
-    Hdot(1)=(1/pa(19))*(-pa(1)*x(2)*(x(1)-pa(4))-pa(2)*x(3)*x(4)*(x(1)-pa(5))-pa(3)*(x(1)-pa(6))+I)
-    Hdot(2)=(xinf(x(1),pa(7),pa(10))-x(2))/pa(13)
-    Hdot(3)=(xinf(x(1),pa(8),pa(11))-x(3))/pa(14)
-    Hdot(4)=(xinf(x(1),pa(9),pa(12))-x(4))/pa(15)
+function [Hdot]=HH11(t,x,pa)
+    Hdot=zeros(5,1);
+    Hdot(1)=(1/pa(23))*(-pa(1)*x(2)*x(3)*(x(1)-pa(4))-pa(2)*x(4)*x(5)*(x(1)-pa(5))-pa(3)*(x(1)-pa(6))+I)
+    Hdot(2)=(xinf(x(1),pa(7),pa(11))-x(2))/pa(15)
+    Hdot(3)=(xinf(x(1),pa(8),pa(12))-x(3))/pa(16)
+    Hdot(4)=(xinf(x(1),pa(9),pa(13))-x(4))/pa(17)
+    Hdot(5)=(xinf(x(1),pa(10),pa(14))-x(5))/pa(18)
 endfunction
 
+//Fonction qui calcule l'écart type (standard deviation)
 //function y=sigma(v)
 //    s=0;
 //    moy=mean(v);
 //    for i=1:length(v)
 //        s=s+(v(i)-moy)^2
 //    end
-//    y=sqrt(s/(length(v)-1));
+//    y=sqrt(s/length(v));
 //endfunction
 //
 //dev=[]
@@ -39,13 +42,12 @@ endfunction
 //end
 
 //Fonction coût 
-
 function y=fct11(pa)
     c=0;
-    condini = [-76; pa(16); pa(17); pa(18)]
+    condini = [-76; pa(19); pa(20); pa(21); pa(22)]
     for i=1:11
         I=stim(i);
-        x=ode(condini,t0,t,HH21); 
+        x=ode(condini,t0,t,HH11); 
         V=x(1,:);
         for k=1:length(t)
             c=c+(V(k)-A(k,i))*(V(k)-A(k,i))
@@ -55,23 +57,21 @@ function y=fct11(pa)
 endfunction
 
 
-
 ////////////////////////////////////////////////////////
 /////////    Estimation de la capacitance C    /////////
 ////////////////////////////////////////////////////////
 
 function [bM, valBest]=simulation(NP,itermax,F,CR)
-    
-    D=19;
-//    costVec=zeros(1,itermax);
+
+    D=23;
     pop=zeros(D,NP);
 
     ///////////////////////////////////////////////////////
     //// Vecteurs de contraintes borne minimum/maximum ////
     ///////////////////////////////////////////////////////
 
-    Xmin=[0.0001 0.0001 0.0001 20  -100 -90 -90 -90 -90  1  1  -30 0.0001 0.0001 0.0001 0.001 0.001 0.001 0.001];
-    Xmax=[50     50     50     150 -2   30  -2  -2  -2   30 30 -1  15     15     15     0.999 0.999 0.999 10];
+    Xmin=[0.0001 0.0001 0.0001 20  -100 -90 -90 -90 -90 -90  1  -30  1  -30 0.0001 0.0001 0.0001 0.0001 0.001 0.001 0.001 0.001 0.001];
+    Xmax=[50     50     50     150 -2   30  -2  -2  -2  -2   30 -1   30 -1  15     15     15     15     0.999 0.999 0.999 0.999 10];
     
     /////////////////////////////////////////
     //// Initialisation de ma population ////
@@ -82,7 +82,9 @@ function [bM, valBest]=simulation(NP,itermax,F,CR)
             pop(i,j)=Xmin(i)+(Xmax(i)-Xmin(i))*rand();
         end
     end
-
+    
+//    disp(pop)
+    
     //////////////////////////////////////////////////////////////
     //// Évaluation du meilleur individu après initialisation ////
     //////////////////////////////////////////////////////////////
@@ -93,13 +95,13 @@ function [bM, valBest]=simulation(NP,itermax,F,CR)
         val(j)=fct11(pop(:,j))
     end
     
-    disp(val);
-    
     bestIndex=1;
     for b=2:NP
         if val(b)<val(bestIndex) then bestIndex=b; end
     end
     costVec(1)=val(bestIndex);
+    
+    disp(val);
     
     ////////////////////////
     //// Étape suivante ////
@@ -179,6 +181,18 @@ function [bM, valBest]=simulation(NP,itermax,F,CR)
             if V(19)<=Xmin(19) then V(19)=Xmin(19);
             elseif V(19)>Xmax(19) then V(19)=Xmax(19);
             end
+            if V(20)<=Xmin(20) then V(20)=Xmin(20);
+            elseif V(20)>Xmax(20) then V(20)=Xmax(20);
+            end
+            if V(21)<=Xmin(21) then V(21)=Xmin(21);
+            elseif V(21)>Xmax(21) then V(21)=Xmax(21);
+            end
+            if V(22)<=Xmin(22) then V(22)=Xmin(22);
+            elseif V(22)>Xmax(22) then V(22)=Xmax(22);
+            end
+            if V(23)<=Xmin(23) then V(23)=Xmin(23);
+            elseif V(23)>Xmax(23) then V(23)=Xmax(23);
+            end
             // ======== Crossover ========
             for i=1:D
                 if rand()<CR then
@@ -218,9 +232,10 @@ function [bM, valBest]=simulation(NP,itermax,F,CR)
     bM = [];
     bM = pop(:,bestIndex);
     
-    disp(val)
-    
+    disp(val);
 endfunction
+
+
 
 
 
