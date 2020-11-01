@@ -213,4 +213,3 @@ function [bM, valBest]=simulation(NP,itermax,F,CR)
     disp(val);
 endfunction
 
-[bM, valBest]=simulation(10,20,0.5,0.9)
