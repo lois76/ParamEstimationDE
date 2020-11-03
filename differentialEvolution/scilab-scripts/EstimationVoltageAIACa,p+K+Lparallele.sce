@@ -4,6 +4,7 @@
 
 a = read("/scilab-scripts/AIA5pAstepCC.txt",-1,12);
 //a = read("/home/naudin/Documents/article-2/AIA for Naudin/AIA 5pA step Current Clamp_150219KyEx1295AIA_3_CC-IV.txt",-1,12);
+A=a(2489:14988,2:$)*1000;
 t=linspace(0,50,12500);
 t0=0;
 stim=[-15:5:35];
@@ -38,8 +39,9 @@ endfunction
 //    dev=[dev sigma(A(7000:$,i))]
 //end
 
-//Fonction coût 
+%ODEOPTIONS=[1,0,0,%inf,0,2,20000,12,5,0,-1,-1];
 
+//Fonction coût 
 function y=fct11(pa)
     c=0;
     condini = [-76; pa(16); pa(17); pa(18)]

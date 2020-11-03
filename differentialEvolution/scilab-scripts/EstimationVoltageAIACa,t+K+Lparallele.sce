@@ -41,6 +41,8 @@ endfunction
 //    dev=[dev sigma(A(7000:$,i))]
 //end
 
+%ODEOPTIONS=[1,0,0,%inf,0,2,20000,12,5,0,-1,-1];
+
 //Fonction coût 
 function y=fct11(pa)
     c=0;
