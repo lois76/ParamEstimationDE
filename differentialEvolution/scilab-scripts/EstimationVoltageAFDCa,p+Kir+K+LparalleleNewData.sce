@@ -34,17 +34,17 @@ endfunction
 //endfunction
 
 // Définition de l'écart type sur V pour chaque I
-dev=[]
-for i=1:11
-    dev=[dev sigma(A(7000:$,i))]
-end
+//dev=[]
+//for i=1:11
+//    dev=[dev sigma(A(7000:$,i))]
+//end
 
 %ODEOPTIONS=[1,0,0,%inf,0,2,20000,12,5,0,-1,-1];
 
 //Fonction coût 
 function y=fct11(pa)
     c=0;
-    condini = [-78; pa(19); pa(20); pa(21)]
+    condini = [-76; pa(19); pa(20); pa(21)]
     for i=1:11
         I=stim(i);
         x=ode(condini,t0,t,HH11); 
