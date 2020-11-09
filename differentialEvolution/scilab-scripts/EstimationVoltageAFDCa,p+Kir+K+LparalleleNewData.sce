@@ -3,7 +3,7 @@
 /////////////////////////////////////////////////////////////
 
 //A = read("/home/naudin/Documents/GitHub/ParamEstimationDE/differentialEvolution/scilab-scripts/AFDnewDataFirstRecordings.txt",-1,12);
-a = read("/scilab-scripts/AFDnewDataFirstRecordings.txt",-1,12);
+A = read("/scilab-scripts/AFDnewDataFirstRecordings.txt",-1,12);
 t=linspace(0,50,50001);
 t0=0;
 stim=[-15:5:35];
