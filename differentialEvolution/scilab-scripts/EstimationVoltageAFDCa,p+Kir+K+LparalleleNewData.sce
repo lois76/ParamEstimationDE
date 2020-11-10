@@ -2,9 +2,9 @@
 ///////////////     Récupération données      ///////////////
 /////////////////////////////////////////////////////////////
 
-//A = read("/home/naudin/Documents/GitHub/ParamEstimationDE/differentialEvolution/scilab-scripts/AFDnewDataFirstRecordings.txt",-1,12);
-A = read("/scilab-scripts/AFDnewDataFirstRecordings.txt",-1,12);
-t=linspace(0,50,50001);
+//A = read("/home/naudin/Documents/article-2/AFD under Extreme Stimulation/First Recordings/AFDnewDataFirstRecordingsNumberPointsDividedBy4.txt",-1,11);
+A = read("/scilab-scripts/AFDnewDataFirstRecordingsNumberPointsDividedBy4.txt",-1,11);
+t=linspace(0,50,12501);
 t0=0;
 stim=[-15:5:35];
 
@@ -170,3 +170,4 @@ function [bM, valBest]=simulation(NP,itermax,F,CR)
     disp(val);
 endfunction
 
+[bM, valBest]=simulation(10,5,0.5,0.9)
