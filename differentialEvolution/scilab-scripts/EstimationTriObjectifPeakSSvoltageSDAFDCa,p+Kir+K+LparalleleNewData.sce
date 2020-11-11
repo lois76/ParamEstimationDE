@@ -346,4 +346,4 @@ function [popInit, valInit, pop2500, val2500, pop5000, val5000, popFinal, valFin
     disp(val);
 endfunction
 
-[popInit, valInit, pop2500, val2500, pop5000, val5000, popFinal, valFinal]=simulation(10,10,0.5,0.9)
+
