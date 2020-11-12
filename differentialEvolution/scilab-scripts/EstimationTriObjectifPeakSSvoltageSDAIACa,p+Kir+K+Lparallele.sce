@@ -3,21 +3,23 @@
 //////////////////////////////////////////////////////////
 
 //Voltage
-A = read("/scilab-scripts/AFDnewDataFirstRecordingsNumberPointsDividedBy4.txt",-1,11);
-//A = read("/home/naudin/Documents/article-2/AFD under Extreme Stimulation/First Recordings/AFDnewDataFirstRecordingsNumberPointsDividedBy4.txt",-1,11);
-t=linspace(0,50,12501);
+a = read("/scilab-scripts/AIA5pAstepCC.txt",-1,12);
+//a = read("/home/naudin/Documents/article-2/AIA for Naudin/AIA 5pA step Current Clamp_150219KyEx1295AIA_3_CC-IV.txt",-1,12);
+A=a(2489:14988,2:$)*1000;
+t=linspace(0,50,12500);
 t0=0;
 stim=[-15:5:35];
 
 //Steady-state current
-vecV=[-110:10:50]
-Inf=[-68.6 -49.5 -18.2 -5.06 2.19 3.37 2.52 2.68 5.97 14.6 33.4 60.2 85 114 152 208 254]
-InfSD=[1 8.65 0.636 1.31 1.83 1.46 0.814 0.455 0.613 2.63 7.71 14.7 22.3 27.4 44.1 73.7 97.6]
+vecV=[-120:10:50]
+Inf=[-23.93 -18.65 -12.82 -7.93 -3.68 -0.59 1.09 1.42 1.37 2.67 7.10 14.98 24.63 34.84 46.38 58.43 70.29 83.12]
+InfSD=[1.88 1.48   0.82   0.51  0.32  0.34  0.44 0.42 0.30 0.26 0.66 1.70  2.73  3.67  4.86  5.74  6.58  7.36]
 
 //Peak current
 vecVpk=[-120:10:50]
-pk=[-75.2 -55.7 -34.6 -16.3 -2.11 3.91 5.36 6.15 6.58 9.71 30.2 65.7 109 159 213 260 312 359]
-pkSD=[3.15 1.45 0.674 1.08 1.44 1.94 2.68 2.03 1.5 1.22 4.11 10.7 18.1 23.1 31.7 37.2 43.7 50]
+pk=[-20.88 -15.78 -10.58 -5.59 -1.38 1.63 3.48 4.28 4.94 6.83 15.26 32.18 54.62 81.02 106.98 134.83 160.97 183.81]
+pkSD=[1.43 1.05 0.58 0.42 0.298 0.38 0.52 0.53 0.49 0.44 0.93 2.13 3.68 5.47 7.49 9.14 10.78 11.80
+]
 
 //////////////////////////////////////////////////
 ///////////////    Cost function    //////////////
@@ -49,13 +51,8 @@ endfunction
 
 //Noise level (standard deviation) for each I
 dev=[]
-dev1=sigma(A(500:$,1))
-dev2=sigma(A(500:$,2))
-dev3=sigma(A(500:$,3))
-dev4=sigma(A(500:$,4))
-dev=[dev dev1 dev2 dev3 dev4]
-for i=5:11
-    dev=[dev sigma(A(10000:$,i))]
+for i=1:11
+    dev=[dev sigma(A(7000:$,i))]
 end
 
 %ODEOPTIONS=[1,0,0,%inf,0,2,20000,12,5,0,-1,-1];
@@ -63,7 +60,7 @@ end
 //Cost function voltage
 function y=fct11(pa)
     tmp=0;
-    condini = [-76; pa(19); pa(20); pa(21)]
+    condini = [-78; pa(19); pa(20); pa(21)]
     for i=1:11
         c=0;
         I=stim(i);
