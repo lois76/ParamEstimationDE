@@ -3,8 +3,8 @@
 //////////////////////////////////////////////////////////
 
 //Voltage
-//A = read("/scilab-scripts/AFDnewDataSecondRecordingsNumberPointsDividedBy4.txt",-1,11);
-A = read("/home/naudin/Documents/article-2/AFD under Extreme Stimulation/Second Recordings/AFDnewDataSecondRecordingsNumberPointsDividedBy4.txt",-1,11);
+A = read("/scilab-scripts/AFDnewDataSecondRecordingsNumberPointsDividedBy4.txt",-1,11);
+//A = read("/home/naudin/Documents/article-2/AFD under Extreme Stimulation/Second Recordings/AFDnewDataSecondRecordingsNumberPointsDividedBy4.txt",-1,11);
 t=linspace(0,50,12501);
 t0=0;
 stim=[-15:5:35];
@@ -346,5 +346,5 @@ function [popInit, valInit, pop2500, val2500, pop5000, val5000, popFinal, valFin
     disp(val);
 endfunction
 
-[popInit, valInit, pop2500, val2500, pop5000, val5000, popFinal, valFinal]=simulation(10,10,0.5,0.9)
+
 
