@@ -29,7 +29,7 @@ endfunction
 function y=fct11(pa)
     c=0;
     condini = [-53; pa(19); pa(20); pa(21)]
-    for i=1:11
+    for i=1:length(stim)
         I=stim(i);
         x=ode(condini,t0,t,HH11); 
         V=x(1,:);
