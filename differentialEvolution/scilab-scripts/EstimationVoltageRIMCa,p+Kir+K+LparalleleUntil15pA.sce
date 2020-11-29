@@ -2,15 +2,15 @@
 ///////////////     Récupération données      ///////////////
 /////////////////////////////////////////////////////////////
 
-a = read("/scilab-scripts/Fig1ARIMCurrentClampTrace.txt",-1,12);
-//a = read("/home/naudin/Documents/FichierScilab/EstimationRIM/Fig1ARIMCurrentClampTrace.txt",-1,12);
+//a = read("/scilab-scripts/Fig1ARIMCurrentClampTrace.txt",-1,12);
+a = read("/home/naudin/Documents/FichierScilab/EstimationRIM/Fig1ARIMCurrentClampTrace.txt",-1,12);
 A=a(2489:14988,2:8)*1000;
 t=linspace(0,50,12500);
 t0=0;
 stim=[-15:5:15];
 
 for i=[1:1:size(A,'c')]
-    plot2d(t,A(:,i),3)
+//    plot2d(t,A(:,i),3)
 end
 
 /////////////////////////////////////////////////////////////
@@ -29,19 +29,42 @@ function [Hdot]=HH11(t,x,pa)
     Hdot(4)=(xinf(x(1),pa(11),pa(15))-x(4))/pa(18)
 endfunction
 
-//Fonction coût 
+//Function that computes the standard deviation
+function y=sigma(v)
+    s=0;
+    moy=mean(v);
+    for i=1:length(v)
+        s=s+(v(i)-moy)^2
+    end
+    y=sqrt(s/(length(v)-1));
+endfunction
+
+//Noise level (standard deviation) for each I
+dev=[];
+dev1=sigma(A(1562:$,1));
+dev2=sigma(A(1250:$,2));
+dev=[dev1 dev2];
+for i=3:length(stim)
+    dev=[dev sigma(A(5000:$,i))];
+end
+
+%ODEOPTIONS=[1,0,0,%inf,0,2,20000,12,5,0,-1,-1];
+//Cost function voltage
 function y=fct11(pa)
-    c=0;
+    tmp=0;
     condini = [-38; pa(19); pa(20); pa(21)]
     for i=1:length(stim)
+        c=0;
         I=stim(i);
         x=ode(condini,t0,t,HH11); 
         V=x(1,:);
         for k=1:length(t)
-            c=c+(V(k)-A(k,i))*(V(k)-A(k,i))
+            c=c+(V(k)-A(k,i))*(V(k)-A(k,i));
         end
+        c=sqrt(c/length(t))/dev(i);
+        tmp=tmp+c;
     end
-    y=c/length(t);
+    y=tmp/length(stim);
 endfunction
 
 
@@ -58,8 +81,8 @@ function [bM, valBest]=simulation(NP,itermax,F,CR)
     //// Vecteurs de contraintes borne minimum/maximum ////
     ///////////////////////////////////////////////////////
 
-    Xmin=[0.1 0.1 0.1 0.1 20  -100 -90 -90 -90 -90 -90 1  -30 1  -30 0.0001 0.0001 0.0001 0.001 0.001 0.001 0.001];
-    Xmax=[50  50  50  50  150 -2   30  -2  -2  -2  -2  30 -1  30 -1  15     15     15     0.999 0.999 0.999 10];
+    Xmin=[0.0001 0.0001 0.0001 0.0001 20  -100 -90 -90 -90 -90 -90 1  -30 1  -30 0.0001 0.0001 0.0001 0.001 0.001 0.001 0.001];
+    Xmax=[50     50     50     50     150 -2   30  -2  -2  -2  -2  30 -1  30 -1  15     15     15     0.999 0.999 0.999 10];
     
     /////////////////////////////////////////
     //// Initialisation de ma population ////
@@ -110,71 +133,11 @@ function [bM, valBest]=simulation(NP,itermax,F,CR)
             // ======== Variation différentielle =======
             V=pop(:,r1) + F*(pop(:,r2)-pop(:,r3));
             
-            if V(1)<=Xmin(1) then V(1)=Xmin(1);
-            elseif V(1)>Xmax(1) then V(1)=Xmax(1);
-            end
-            if V(2)<=Xmin(2) then V(2)=Xmin(2);
-            elseif V(2)>Xmax(2) then V(2)=Xmax(2);
-            end
-            if V(3)<=Xmin(3) then V(3)=Xmin(3);
-            elseif V(3)>Xmax(3) then V(3)=Xmax(3);
-            end
-            if V(4)<=Xmin(4) then V(4)=Xmin(4);
-            elseif V(4)>Xmax(4) then V(4)=Xmax(4);
-            end
-            if V(5)<=Xmin(5) then V(5)=Xmin(5);
-            elseif V(5)>Xmax(5) then V(5)=Xmax(5);
-            end
-            if V(6)<=Xmin(6) then V(6)=Xmin(6);
-            elseif V(6)>Xmax(6) then V(6)=Xmax(6);
-            end
-            if V(7)<=Xmin(7) then V(7)=Xmin(7);
-            elseif V(7)>Xmax(7) then V(7)=Xmax(7);
-            end
-            if V(8)<=Xmin(8) then V(8)=Xmin(8);
-            elseif V(8)>Xmax(8) then V(8)=Xmax(8);
-            end
-            if V(9)<=Xmin(9) then V(9)=Xmin(9);
-            elseif V(9)>Xmax(9) then V(9)=Xmax(9);
-            end
-            if V(10)<=Xmin(10) then V(10)=Xmin(10);
-            elseif V(10)>Xmax(10) then V(10)=Xmax(10);
-            end
-            if V(11)<=Xmin(11) then V(11)=Xmin(11);
-            elseif V(11)>Xmax(11) then V(11)=Xmax(11);
-            end
-            if V(12)<=Xmin(12) then V(12)=Xmin(12);
-            elseif V(12)>Xmax(12) then V(12)=Xmax(12);
-            end
-            if V(13)<=Xmin(13) then V(13)=Xmin(13);
-            elseif V(13)>Xmax(13) then V(13)=Xmax(13);
-            end
-            if V(14)<=Xmin(14) then V(14)=Xmin(14);
-            elseif V(14)>Xmax(14) then V(14)=Xmax(14);
-            end
-            if V(15)<=Xmin(15) then V(15)=Xmin(15);
-            elseif V(15)>Xmax(15) then V(15)=Xmax(15);
-            end
-            if V(16)<=Xmin(16) then V(16)=Xmin(16);
-            elseif V(16)>Xmax(16) then V(16)=Xmax(16);
-            end
-            if V(17)<=Xmin(17) then V(17)=Xmin(17);
-            elseif V(17)>Xmax(17) then V(17)=Xmax(17);
-            end
-            if V(18)<=Xmin(18) then V(18)=Xmin(18);
-            elseif V(18)>Xmax(18) then V(18)=Xmax(18);
-            end
-            if V(19)<=Xmin(19) then V(19)=Xmin(19);
-            elseif V(19)>Xmax(19) then V(19)=Xmax(19);
-            end
-            if V(20)<=Xmin(20) then V(20)=Xmin(20);
-            elseif V(20)>Xmax(20) then V(20)=Xmax(20);
-            end
-            if V(21)<=Xmin(21) then V(21)=Xmin(21);
-            elseif V(21)>Xmax(21) then V(21)=Xmax(21);
-            end
-            if V(22)<=Xmin(22) then V(22)=Xmin(22);
-            elseif V(22)>Xmax(22) then V(22)=Xmax(22);
+            // ======== Contraintes ========
+            for i=1:length(Xmin)
+                if V(i)<=Xmin(i) then V(i)=Xmin(i);
+                elseif V(i)>Xmax(i) then V(i)=Xmax(i);
+                end
             end
             // ======== Crossover ========
             for i=1:D
@@ -217,5 +180,5 @@ function [bM, valBest]=simulation(NP,itermax,F,CR)
     
 endfunction
 
-
+[bM, valBest]=simulation(10,4,0.5,0.9)
 

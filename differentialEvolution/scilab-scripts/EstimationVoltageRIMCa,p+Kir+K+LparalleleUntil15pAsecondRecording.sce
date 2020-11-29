@@ -29,6 +29,8 @@ function [Hdot]=HH11(t,x,pa)
     Hdot(4)=(xinf(x(1),pa(11),pa(15))-x(4))/pa(18)
 endfunction
 
+
+%ODEOPTIONS=[1,0,0,%inf,0,2,20000,12,5,0,-1,-1];
 //Fonction coût 
 function y=fct11(pa)
     c=0;

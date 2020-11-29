@@ -10,7 +10,7 @@ t0=0;
 stim=[-15:5:10];
 
 for i=[1:1:size(A,'c')]
-    plot2d(t,A(:,i),3)
+//    plot2d(t,A(:,i),3)
 end
 
 /////////////////////////////////////////////////////////////
@@ -29,19 +29,42 @@ function [Hdot]=HH11(t,x,pa)
     Hdot(4)=(xinf(x(1),pa(11),pa(15))-x(4))/pa(18)
 endfunction
 
-//Fonction coût 
+//Function that computes the standard deviation
+function y=sigma(v)
+    s=0;
+    moy=mean(v);
+    for i=1:length(v)
+        s=s+(v(i)-moy)^2
+    end
+    y=sqrt(s/(length(v)-1));
+endfunction
+
+//Noise level (standard deviation) for each I
+dev=[];
+dev1=sigma(A(1562:$,1));
+dev2=sigma(A(1250:$,2));
+dev=[dev1 dev2];
+for i=3:length(stim)
+    dev=[dev sigma(A(5000:$,i))];
+end
+
+%ODEOPTIONS=[1,0,0,%inf,0,2,20000,12,5,0,-1,-1];
+//Cost function voltage
 function y=fct11(pa)
-    c=0;
+    tmp=0;
     condini = [-38; pa(19); pa(20); pa(21)]
     for i=1:length(stim)
+        c=0;
         I=stim(i);
         x=ode(condini,t0,t,HH11); 
         V=x(1,:);
         for k=1:length(t)
-            c=c+(V(k)-A(k,i))*(V(k)-A(k,i))
+            c=c+(V(k)-A(k,i))*(V(k)-A(k,i));
         end
+        c=sqrt(c/length(t))/dev(i);
+        tmp=tmp+c;
     end
-    y=c/length(t);
+    y=tmp/length(stim);
 endfunction
 
 
@@ -58,8 +81,8 @@ function [bM, valBest]=simulation(NP,itermax,F,CR)
     //// Vecteurs de contraintes borne minimum/maximum ////
     ///////////////////////////////////////////////////////
 
-    Xmin=[0.1 0.1 0.1 0.1 20  -100 -90 -90 -90 -90 -90 1  -30 1  -30 0.0001 0.0001 0.0001 0.001 0.001 0.001 0.001];
-    Xmax=[50  50  50  50  150 -2   30  -2  -2  -2  -2  30 -1  30 -1  15     15     15     0.999 0.999 0.999 10];
+    Xmin=[0.0001 0.0001 0.0001 0.0001 20  -100 -90 -90 -90 -90 -90 1  -30 1  -30 0.0001 0.0001 0.0001 0.001 0.001 0.001 0.001];
+    Xmax=[50     50     50     50     150 -2   30  -2  -2  -2  -2  30 -1  30 -1  15     15     15     0.999 0.999 0.999 10];
     
     /////////////////////////////////////////
     //// Initialisation de ma population ////
@@ -156,5 +179,3 @@ function [bM, valBest]=simulation(NP,itermax,F,CR)
     bM = pop(:,bestIndex);
     
 endfunction
-
-
