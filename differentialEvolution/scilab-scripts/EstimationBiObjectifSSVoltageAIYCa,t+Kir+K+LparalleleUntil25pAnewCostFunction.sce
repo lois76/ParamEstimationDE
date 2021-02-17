@@ -58,8 +58,9 @@ end
 %ODEOPTIONS=[1,0,0,%inf,0,2,20000,12,5,0,-1,-1];
 
 //Cost function voltage
-
-W=sum(abs(stim))
+C=stim($)-stim(1)
+W=sum(abs(stim)+C)
+//W=sum(abs(stim))
 function y=fct11(pa)
     tmp=0;
     condini = [-53; pa(19); pa(20); pa(21)]
@@ -71,7 +72,7 @@ function y=fct11(pa)
         for k=1:length(t)
             c=c+(V(k)-A(k,i))*(V(k)-A(k,i));
         end
-        w=abs(I)/W
+        w=(abs(I)+C)/W
         c=w*(sqrt(c/length(t))/dev(i));
         tmp=tmp+c;
     end
