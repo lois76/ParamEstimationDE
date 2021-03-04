@@ -2,8 +2,8 @@
 ///////////////     Experimental data      ///////////////
 //////////////////////////////////////////////////////////
 
-a = read("/home/naudin/Documents/FichierScilab/Fourre tout/Fig1A_AIYCurrentClampTrace2.txt",-1,12);
-//a = read("/scilab-scripts/Fig 1A_AIY Current-Clamp Trace.txt",-1,12);
+//a = read("/home/naudin/Documents/FichierScilab/Fourre tout/Fig1A_AIYCurrentClampTrace2.txt",-1,12);
+a = read("/scilab-scripts/Fig 1A_AIY Current-Clamp Trace.txt",-1,12);
 A=a(2489:14988,2:10)*1000;
 t=linspace(0,50,12500);
 t0=0;
@@ -228,15 +228,17 @@ function [popInit, valInit, pop2500, val2500, pop5000, val5000, popFinal, valFin
         for j=1:NP
             // ======= Construction de la matrice U = variation différentielle + crossover =======
 
-            // ========= Tirage aléatoire de 3 entiers distincts r1, r2 et r3 et différents de j ========
-            r1=j; r2=j; r3=j;//////////////////////////////////////
-            while (r1==r2 | r1==r3 | r2==r3 | r1==j | r2==j | r3==j)
+            // ========= Tirage aléatoire de 2 entiers distincts r1, r2  et différents de j ========
+            r1=j; r2=j;//////////////////////////////////////
+            while (r1==r2 | r1==j | r2==j)
                 r1=floor(1+NP*rand());
                 r2=floor(1+NP*rand());
-                r3=floor(1+NP*rand());
             end
+            //récupération du meilleur individu selon la fitness voltage
+            [tmp, Index] = gsort(val(:,1),'g','i');
+                        
             // ======== Variation différentielle =======
-            V=pop(:,r1) + F*(pop(:,r2)-pop(:,r3));
+            V=pop(:,Index(1)) + F*(pop(:,r1)-pop(:,r2));
             
             // ======== Contraintes ========
             for i=1:length(Xmin)
@@ -305,11 +307,11 @@ function [popInit, valInit, pop2500, val2500, pop5000, val5000, popFinal, valFin
         end
         
         //Integration of mono-objective solution in random position 
-        if iter==5 then
+        if iter==300 then
             indexIntegration=floor(1+NP*rand())
             pop(:,indexIntegration)=bM
-            val(indexIntegration,1)=fct11(bM);
-            val(indexIntegration,2)=WSS(bM);
+            val(indexIntegration,1)=fct11(bM)
+            val(indexIntegration,2)=WSS(bM)
         end
         
         if iter==700 then
@@ -329,10 +331,6 @@ function [popInit, valInit, pop2500, val2500, pop5000, val5000, popFinal, valFin
             disp(pop);
             disp(val);
         end
-        
-        disp(pop);
-        disp(val);
-        disp("============================")
 
         disp(iter);
         iter = iter + 1;
@@ -344,4 +342,4 @@ function [popInit, valInit, pop2500, val2500, pop5000, val5000, popFinal, valFin
     disp(val);
 endfunction
 
-simulation(8,10,0.5,0.3)
+
