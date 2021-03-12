@@ -3,39 +3,40 @@
 //////////////////////////////////////////////////////////
 
 //Voltage
-A = read("/scilab-scripts/AFDnewDataSecondRecordingsNumberPointsDividedBy4.txt",-1,11);
-//A = read("/home/naudin/Documents/article-2/AFD under Extreme Stimulation/Second Recordings/AFDnewDataSecondRecordingsNumberPointsDividedBy4.txt",-1,11);
-t=linspace(0,50,12501);
+a = read("/scilab-scripts/Fig1ARIMCurrentClampTrace.txt",-1,12);
+//a = read("/home/naudin/Documents/FichierScilab/Fourre tout/Fig1A_RIMCurrentClampTrace.txt",-1,12);
+A=a(2489:14988,2:10)*1000;
+t=linspace(0,50,12500);
 t0=0;
 stim=[-15:5:25];
 
 //Steady-state current
-vecV=[-110:10:50]
-Inf=[-68.6 -49.5 -18.2 -5.06 2.19 3.37 2.52 2.68 5.97 14.6 33.4 60.2 85 114 152 208 254]
-InfSD=[1 8.65 0.636 1.31 1.83 1.46 0.814 0.455 0.613 2.63 7.71 14.7 22.3 27.4 44.1 73.7 97.6]
+vecV=[-100:10:50]
+Inf=[-12.2 -9.13 -6.57 -4.91 -3.57 -2.13 -0.807 0.229 1.46 4.27 7.46 11.8 17.2 21.6 27.1 32.5]
+InfSD=[2.39 1.69 1.21 0.784 0.527 0.388 0.392 0.646 0.926 2.01 2.99 4.02 5.9 6.06 6.93 7.81]
 
-bM=[0.0413673
-   0.9151225
-   11.157351
-   0.0618322
-   29.535468
-  -49.474624
-  -89.130144
-  -58.034229
-  -90.
-  -2.0079491
-  -73.982468
-   1.
-  -2.8838769
-   10.104749
-  -29.993594
-   17.880205
-   0.0002916
-   8.1118675
-   0.001
-   0.0413188
-   0.6231612
-   0.0638208]
+bM=[0.6811548
+   0.2540603
+   1.1628184
+   0.000192
+   20.156682
+  -62.175833
+  -37.603062
+  -5.5022187
+  -65.707669
+  -9.3858738
+  -24.275244
+   1.6043019
+  -1.3250899
+   1.2898573
+  -23.449619
+   0.3987939
+   0.0318496
+   0.609105
+   0.002348
+   0.6426541
+   0.1130469
+   0.0423273]
 
 //////////////////////////////////////////////////
 ///////////////    Cost function    //////////////
@@ -66,9 +67,12 @@ function y=sigma(v)
 endfunction
 
 //Noise level (standard deviation) for each I
-dev=[]
-for i=1:length(stim)
-    dev=[dev sigma(A(10000:$,i))]
+dev=[];
+dev1=sigma(A(1562:$,1));
+dev2=sigma(A(1250:$,2));
+dev=[dev1 dev2];
+for i=3:length(stim)
+    dev=[dev sigma(A(5000:$,i))];
 end
 
 %ODEOPTIONS=[1,0,0,%inf,0,2,20000,12,5,0,-1,-1];
@@ -76,7 +80,7 @@ end
 //Cost function voltage
 function y=fct11(pa)
     tmp=0;
-    condini = [-76; pa(19); pa(20); pa(21)]
+    condini = [-38; pa(19); pa(20); pa(21)]
     for i=1:length(stim)
         c=0;
         I=stim(i);
@@ -172,10 +176,6 @@ endfunction
 /////////    Parameter estimation    /////////
 //////////////////////////////////////////////
 
-    Xmin=[0.0001 0.0001 0.0001 0.0001 20  -100 -90 -90 -90 -90 -90 1  -30 1  -30 0.0001 0.0001 0.0001 0.001 0.001 0.001 0.001];
-    Xmax=[50     50     50     50     150 -2   30  -2  -2  -2  -2  30 -1  30 -1  20     20     20     0.999 0.999 0.999 10];
-
-
 function [popInit, valInit, pop2500, val2500, pop5000, val5000, popFinal, valFinal]=simulation(NP,itermax,F,CR)
   
     D=22; 
@@ -184,7 +184,7 @@ function [popInit, valInit, pop2500, val2500, pop5000, val5000, popFinal, valFin
     ///////////////////////////////////////////////////////
     //// Vecteurs de contraintes borne minimum/maximum ////
     ///////////////////////////////////////////////////////
-    
+
     Xmin=[0.0001 0.0001 0.0001 0.0001 20  -100 -90 -90 -90 -90 -90 1  -30 1  -30 0.0001 0.0001 0.0001 0.001 0.001 0.001 0.001];
     Xmax=[50     50     50     50     150 -2   30  -2  -2  -2  -2  30 -1  30 -1  20     20     20     0.999 0.999 0.999 10];
     
@@ -336,4 +336,4 @@ function [popInit, valInit, pop2500, val2500, pop5000, val5000, popFinal, valFin
     disp(pop);
     disp(val);
 endfunction
-    
+
