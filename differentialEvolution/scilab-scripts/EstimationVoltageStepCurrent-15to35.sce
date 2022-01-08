@@ -2,10 +2,12 @@
 ///////////////     Récupération données      ///////////////
 /////////////////////////////////////////////////////////////
 
-A=csvRead("/home/naudin/Documents/article_ramp_current/Fichier Scilab/experimentalVoltageDataStepCurrent-15to35.txt");
+A=csvRead("/scilab-scripts/experimentalVoltageDataStepCurrent-15to35.txt")
+//A=csvRead("/home/naudin/Documents/article_ramp_current/Fichier Scilab/experimentalVoltageDataStepCurrent-15to35.txt");
 t=linspace(0,50,2000);
 t0=0;
 stim=[-15:5:35];
+
 
 for i=[1:1:size(A,'c')]
 //    plot2d(t,A(:,i),3)
@@ -162,4 +164,4 @@ function [bM, valBest, val]=simulation(NP,itermax,F,CR)
     
 endfunction
 
-[bM, valBest, val]=simulation(100,20,0.5,0.9)
+//[bM, valBest, val]=simulation(100,20,0.5,0.9)
