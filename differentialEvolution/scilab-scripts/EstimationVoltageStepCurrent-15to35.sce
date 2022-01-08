@@ -56,7 +56,7 @@ endfunction
 /////////    Estimation de la capacitance C    /////////
 ////////////////////////////////////////////////////////
 
-function [bM, valBest, val]=simulation(NP,itermax,F,CR)
+function [bM, valBest]=simulation(NP,itermax,F,CR)
     
     D=22;
     pop=zeros(D,NP);
