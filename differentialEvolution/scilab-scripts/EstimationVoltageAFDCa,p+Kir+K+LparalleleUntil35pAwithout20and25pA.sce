@@ -46,10 +46,9 @@ endfunction
 //Noise level (standard deviation) for each I
 dev1=[]
 for i=1:length(stim1)
-    dev1=[dev1 sigma(A(10000:$,i))]
+    dev1=[dev1 sigma(A1(10000:$,i))]
 end
-dev2=[sigma(A(10000:$,10)) sigma(A(10000:$,11))]
-
+dev2=[sigma(A2(10000:$,1)) sigma(A2(10000:$,2))]
 
 %ODEOPTIONS=[1,0,0,%inf,0,2,20000,12,5,0,-1,-1];
 //Cost function voltage
