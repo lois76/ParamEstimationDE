@@ -2,15 +2,16 @@
 ///////////////     Récupération données      ///////////////
 /////////////////////////////////////////////////////////////
 
-A=csvRead("/scilab-scripts/experimentalVoltageDataStepCurrent-15to35.txt")
-//A=csvRead("/home/naudin/Documents/article_ramp_current/Fichier Scilab/experimentalVoltageDataStepCurrent-15to35.txt");
+//A=csvRead("/scilab-scripts/experimentalVoltageDataStepCurrent-15to35.txt");
+//disp(size(A))
+A=csvRead("/home/naudin/Documents/article_ramp_current/Fichier Scilab/experimentalVoltageDataStepCurrent-15to35.txt");
 t=linspace(0,50,2000);
 t0=0;
 stim=[-15:5:35];
 
 
 for i=[1:1:size(A,'c')]
-//    plot2d(t,A(:,i),3)
+    plot2d(t,A(:,i),3)
 end
 
 /////////////////////////////////////////////////////////////
@@ -49,12 +50,9 @@ function y=fct11(pa)
     y=c/(length(1:100)+length(1:(length(t)/100)));
 endfunction
 
-//for i=1:(length(t)/3)
-//        x1(3*i)=x1(3*i)+grand(1,1,'nor',0,2)
-//     end
-////////////////////////////////////////////////////////
-/////////    Estimation de la capacitance C    /////////
-////////////////////////////////////////////////////////
+//////////////////////////////////////////////
+/////////    Parameter estimation    /////////
+//////////////////////////////////////////////
 
 function [bM, valBest]=simulation(NP,itermax,F,CR)
     
@@ -164,4 +162,4 @@ function [bM, valBest]=simulation(NP,itermax,F,CR)
     
 endfunction
 
-//[bM, valBest, val]=simulation(100,20,0.5,0.9)
+[bM, valBest]=simulation(140,900,0.5,0.9)

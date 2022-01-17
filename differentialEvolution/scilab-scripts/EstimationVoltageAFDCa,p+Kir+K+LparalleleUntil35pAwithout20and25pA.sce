@@ -196,7 +196,7 @@ function [bM, valBest]=simulation(NP,itermax,F,CR)
     
 endfunction
 
-
+//[bM, valBest]=simulation(10,5,0.5,0.9)
 
 
 
