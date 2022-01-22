@@ -2,15 +2,15 @@
 ///////////////     Récupération données      ///////////////
 /////////////////////////////////////////////////////////////
 
-a = read("/scilab-scripts/AFDnewDataSecondRecordingsNumberPointsDividedBy4.txt",-1,11);
-//a = read("/home/naudin/Documents/article-2/AFD under Extreme Stimulation/Second Recordings/AFDnewDataSecondRecordingsNumberPointsDividedBy4.txt",-1,11);
+A = read("/scilab-scripts/AFDnewDataSecondRecordingsNumberPointsDividedBy4.txt",-1,11);
+//A = read("/home/naudin/Documents/article-2/AFD under Extreme Stimulation/Second Recordings/AFDnewDataSecondRecordingsNumberPointsDividedBy4.txt",-1,11);
 t=linspace(0,50,12501);
 //A=a(:,1:$);
 t0=0;
 stim1=[-15:5:15];
-A1=a(:,1:length(stim1));
+A1=A(:,1:length(stim1));
 stim2=[30 35]
-A2=a(:,10:11);
+A2=A(:,10:11);
 //stim=[stim1 stim2]
 
 //for i=[1:1:size(A2,'c')]
