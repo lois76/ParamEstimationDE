@@ -158,8 +158,9 @@ function [bM, valBest]=simulation(NP,itermax,F,CR)
     valBest=val(bestIndex);
     
     // Sauvegarde du meilleur individu
-    bM = [];
-    bM = pop(:,bestIndex);
+//    bM = [];
+//    bM = pop(:,bestIndex);
+    bM = costVec'
     
 endfunction
 
