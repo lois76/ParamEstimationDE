@@ -7,9 +7,9 @@ A=csvRead("/scilab-scripts/6differentRamps.txt");
 t=linspace(0,50,2000);
 t0=0;
 
-//for i=[1:1:size(A,'c')]
+for i=[1:1:size(A,'c')]
 //    plot2d(t,A(:,i),3)
-//end
+end
 
 /////////////////////////////////////////////////////
 ///////////////     Several Ramp      ///////////////
@@ -166,14 +166,12 @@ function [bM, valBest]=simulation(NP,itermax,F,CR)
     for b=2:NP
         if val(b)<val(bestIndex) then bestIndex=b; end
     end
-    valBest=val(bestIndex);
+    valBest=costVec';
     
     // Sauvegarde du meilleur individu
-//    bM = [];
-//    bM = pop(:,bestIndex);
-    bM = costVec'
+    bM = [];
+    bM = pop(:,bestIndex);
     
 endfunction
-
-//[bM, valBest]=simulation(20,30,0.5,0.9)
+//[bM, valBest]=simulation(10,10,0.5,0.9)
 
