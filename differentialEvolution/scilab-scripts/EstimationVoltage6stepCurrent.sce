@@ -47,7 +47,7 @@ function y=fct11(pa)
             c=c+(V(100*k)-A(100*k,i))*(V(100*k)-A(100*k,i));
         end
     end
-    y=c/(length(1:100)+length(1:(length(t)/100)));
+    y=c/(6*(length(1:100)+length(1:(length(t)/100))));
 endfunction
 
 //////////////////////////////////////////////
@@ -155,13 +155,11 @@ function [bM, valBest]=simulation(NP,itermax,F,CR)
     for b=2:NP
         if val(b)<val(bestIndex) then bestIndex=b; end
     end
-    valBest=val(bestIndex);
+    valBest=costVec';
     
     // Sauvegarde du meilleur individu
-//    bM = [];
-//    bM = pop(:,bestIndex);
-    bM = costVec'
-    
+    bM = [];
+    bM = pop(:,bestIndex);
 endfunction
 
 //[bM, valBest]=simulation(20,5,0.5,0.9)
