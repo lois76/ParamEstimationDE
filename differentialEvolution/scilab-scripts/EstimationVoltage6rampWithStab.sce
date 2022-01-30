@@ -170,13 +170,11 @@ function [bM, valBest]=simulation(NP,itermax,F,CR)
     for b=2:NP
         if val(b)<val(bestIndex) then bestIndex=b; end
     end
-    valBest=val(bestIndex);
+    valBest=costVec';
     
     // Sauvegarde du meilleur individu
-//    bM = [];
-//    bM = pop(:,bestIndex);
-    bM = costVec'
-    
+    bM = [];
+    bM = pop(:,bestIndex);
 endfunction
 
 //[bM, valBest]=simulation(8,10,0.5,0.9)
