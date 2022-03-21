@@ -2,8 +2,7 @@
 ///////////////     Voltage Data      ///////////////
 /////////////////////////////////////////////////////
 
-//a = read("/home/naudin/Documents/FichierScilab/EstimationRIM/Fig1ARIMCurrentClampTrace.txt",-1,12);
-a = read("/scilab-scripts/Fig1ARIMCurrentClampTrace.txt",-1,12);
+a = read("/scilab-scripts/Fig 1A_AIY Current-Clamp Trace.txt",-1,12);
 A=a(2489:14988,2:$)*1000;
 t=linspace(0,50,12500);
 t0=0;
@@ -21,7 +20,7 @@ endfunction
 
 function y=fct11(pa)
     c=0;
-    condini = -38
+    condini = -53
     for i=1:11
         I=stim(i);
         x=ode(condini,t0,t,HH); 
@@ -42,7 +41,7 @@ function [bM, valBest]=simulation(NP,itermax,F,CR)
     //// Vecteurs de contraintes des paramètres : borne minimum/maximum ////
     ////////////////////////////////////////////////////////////////////////
 
-    Xmin=[1   1];
+    Xmin=[1    1];
     Xmax=[1000 1000];
     
     ///////////////////////////////////////////////////
