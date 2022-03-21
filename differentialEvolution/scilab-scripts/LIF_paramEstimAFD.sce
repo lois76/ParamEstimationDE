@@ -2,10 +2,9 @@
 ///////////////     Voltage Data      ///////////////
 /////////////////////////////////////////////////////
 
-a = read("/scilab-scripts/AFDnewDataSecondRecordingsNumberPointsDividedBy4.txt",-1,11);
-//a = read("/home/naudin/Documents/article-2/AFD under Extreme Stimulation/Second Recordings/AFDnewDataSecondRecordingsNumberPointsDividedBy4.txt",-1,11);
-A=a(2489:14988,2:$)*1000;
-t=linspace(0,50,12500);
+A = read("/scilab-scripts/AFDnewDataSecondRecordingsNumberPointsDividedBy4.txt",-1,11);
+//A = read("/home/naudin/Documents/article-2/AFD under Extreme Stimulation/Second Recordings/AFDnewDataSecondRecordingsNumberPointsDividedBy4.txt",-1,11);
+t=linspace(0,50,12501);
 t0=0;
 stim=[-15:5:35];
 
